@@ -233,7 +233,8 @@ function SalaryPost() {
                 academic_information: academic,
                 year: year,
                 other_details: otherInfo,
-                created_on: new Date()
+                created_on: new Date(),
+                live: false
             })
             if (authContext.companies.includes(companyName)){
                 await Firebase.firestore().collection('comps').doc('comps').collection(companyName).doc().set({
@@ -256,7 +257,8 @@ function SalaryPost() {
                     academic_information: academic,
                     other_details: otherInfo,
                     year: year,
-                    created_on: new Date()
+                    created_on: new Date(),
+                    live: false
                 })
                 setSubmitted(true);
             } else{
@@ -280,7 +282,8 @@ function SalaryPost() {
                     academic_information: academic,
                     year: year,
                     other_details: otherInfo,
-                    created_on: new Date()
+                    created_on: new Date(),
+                    live: false
                 })
                 setSubmitted(true);
             }
@@ -316,8 +319,11 @@ function SalaryPost() {
                 </Link>
             </div>
         </div>
+
         {submitted === false ? 
             <form autocomplete="off" onSubmit={(e)=>{handleSubmit(e)}} className = 'form'>
+            <div className='title'>Add Compensation</div>
+            <div className='title-second'>Please fill out this form to help increase compensation transparency for employees! </div>
 
             <div className='subtitle'>General</div>
             <div className = 'general-info'>
@@ -523,7 +529,7 @@ function SalaryPost() {
                 <div className='thank-you'>Thank You!</div>
                 <div className = 'thank-you-inner'>
 
-                    <div>Your submission helps increase the transparency around total compensation within finance. </div>
+                    <div>Your submission helps increase transparency around total compensation within finance! </div>
                     <br/><br/><br/>
                     
                     <Link to='/salaries' className = 'back'>Back to salaries ></Link>

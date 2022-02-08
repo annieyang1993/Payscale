@@ -373,7 +373,8 @@ function EntryForm() {
         || info['current_career_type'] === undefined || info['current_career_type'] === null || info['current_career_type'] === '' 
         || info['current_title'] === undefined || info['current_title'] === null || info['current_title'] === ''
         || info['current_group'] === undefined || info['current_group'] === null || info['current_group'] === ''
-        || info['job'] === undefined && info['school'] === undefined || info['job'] === false && info['school'] === false
+        || info['job'] === undefined && info['school'] === undefined || info['job'] === false && info['school'] === false ||info['advice'] === undefined
+        || info['advice'] === '' || info['advice'] === null
         ){
             setGeneralError('* Please fill-out all highlighted fields.')
             submit = false;
@@ -460,10 +461,11 @@ function EntryForm() {
         </div>
         {submitted === false ? 
             <form autocomplete="off" onSubmit={(e)=>{handleSubmit(e)}} className = 'form'>
-                
+            <div className='title'>Break In/Exit Ops Form</div>
+            <div className='title-second'>Please help employees better understand how to break in to or exit a career within finance! </div>
 
             <div className='subtitle'>New Role</div>
-            <div className='subtitle-1'>New/latest role you started</div>
+            <div className='title-second'>New/latest role you started </div>
             <div className = 'general-info'>
 
                     {/* const [currentCompany, setCurrentCompany] = useState(null);
@@ -633,10 +635,15 @@ function EntryForm() {
 
 
 
-            <div className='subtitle'>Comments, Advice, Resources (Not Required)</div>
+            <div className='subtitle'>Comments, Advice, Resources</div>
+            <div className = 'title-second'>
+                E.g. Why you chose this specific career, why you left your previous career, additional advice/resources, etc.
+            </div>
 
             <div className = 'general-info'>
-                <textarea className = 'additional-info-form' onChange={(e)=>{setAdditionalComments(e.target.value); var infoTemp = info; console.log(infoTemp); infoTemp['advice'] = e.target.value; setInfo(infoTemp)}}/>
+                <textarea className = 'additional-info-form' 
+                onChange={(e)=>{setAdditionalComments(e.target.value); var infoTemp = info; console.log(infoTemp); infoTemp['advice'] = e.target.value; setInfo(infoTemp)}}
+                />
             </div>
 
 

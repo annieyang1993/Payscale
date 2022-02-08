@@ -91,6 +91,7 @@ input[type=submit] {
   border-bottom: none;
   border-top: none;
   padding: 20px;
+  margin-left: 30%;
   text-align: center;
   align-items: center;
   width: 20%;
@@ -101,6 +102,8 @@ input[type=submit] {
 .stats-max{
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
+  border-right: 2px solid rgba(183, 188, 190, 0.507);
+
   border-left: none;
   text-align: center;
   align-items: center;
@@ -245,13 +248,14 @@ input[type=submit] {
 }
 
 .dropdown-container{
-  width: 25%;
-  margin: 1.5%;
+  width: 30%;
+  margin-left: 2.5%;
 }
 
 .dropdown-label-jobs{
   font-weight: bold;
   margin-bottom: 10px;
+
   color: gray;
 }
 
@@ -259,7 +263,8 @@ input[type=submit] {
   align-items:baseline;
   align-content: flex-end;
   width: 100%;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
+  padding-bottom: 10px;
 }
 
 .filter-text{
@@ -343,7 +348,11 @@ input[type=submit] {
 .welcome-inner{
   display: flex;
   flex-wrap: wrap;
-  margin-top: 50px;
+  width: 90%;
+  max-width: 85rem;
+  margin: auto;
+  margin-top: 100px;
+
   width: 100%;
   
 }
@@ -376,24 +385,62 @@ input[type=submit] {
 }
 
 .button-right:hover{
-  background: rgba(129, 129, 129, 0.199);
+  background: rgb(250, 250, 250);
+}
+
+.button-view:hover{
+  color: gray;
 }
 
 
 
 .button-right{
-  width: 20%;
+  float: left;
+  width: 31%;
   text-align: center;
-  padding: 20px;
-  padding-top: 40px;
-  padding-bottom: 40px;
-  background: rgba(215, 226, 220);
+  background: rgb(236, 236, 236);
+  margin: 1%;
+  border-radius: 5px;
+  padding: 10px;
+  text-decoration: none;
+  color: rgba(129, 129, 129, 0.603);
+}
+
+.button-view{
+  float: left;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  text-decoration: none;
+  color: rgba(129, 129, 129, 0.603);
+  border-radius: 1px;
+  margin-top: 30px;
+}
+
+.links-wrapper{
+  width: 50%;
+  margin-left: 25%;
+  margin-top: 30px;
+}
+
+.button-support{
+  float: left;
+  width: 100%;
+  text-align: center;
+  padding: 30px;
   text-decoration: none;
   color: gray;
-  margin: 5%;
-  font-weight: 400;
-  box-shadow: 0px 2px 3px 2px rgb(196, 196, 196);
+  border-radius: 1px;
+  background: rgb(239, 239, 247);
+  padding: 30px;
+  margin-top: 30px;
+  font-style: italic;
 }
+
+.button-support:hover{
+  background: rgb(226, 226, 231);
+}
+
 
 
 .button-left{
@@ -712,7 +759,7 @@ input[type=number] {
   font-size: 0.9rem;
   border-radius: 0px;
   color: rgb(82, 82, 82);
-  padding-left: 15%;
+  margin-top: 50px;
   width: 100%;
 
 }
@@ -797,6 +844,7 @@ input[type=number] {
   padding: 5px;
   color: white;
   font-weight: bold;
+
 }
 
 .experience-container{
@@ -810,12 +858,12 @@ input[type=number] {
 }
 
 .reset{
-  color: black;
+  color: rgb(78, 78, 78);
   float: left;
   font-size: 0.8rem;
   font-style: italic;
   width: 100%;
-  padding-left: 17%;
+  padding-left: 2.5%;
 }
 
 .reset:hover{
@@ -848,15 +896,32 @@ input[type=number] {
   float: left;
 }
 .enter-salary{
-  background: rgb(1, 102, 1);
+  background: rgba(31, 116, 31, 0.822);
   float: right;
-  margin-right: 20px;
+  margin-right: 2.5%;
   padding: 10px;
-  margin-bottom: 30px;
   text-decoration: none;
+  width: 30%;
   color: white;
-  border-radius: 5px;
+  border-radius: 1px;
   box-shadow: 0px 2px 3px 2px rgb(112, 112, 112);
+  margin-top: 10px;
+
+}
+
+.title{
+  font-size: 1.2rem;
+  width: 100%;
+  margin-left: 15px;
+  color: gray;
+  margin-bottom: 5px;
+}
+
+.title-second{
+  width: 94%;
+  margin-left: 3%;
+  font-size: 0.8rem;
+  color: rgb(182, 182, 182);
 
 }
 
@@ -865,16 +930,25 @@ input[type=number] {
 }
 
 .enter-salary-1{
-  background: rgb(1, 102, 1);
+  background: rgba(31, 116, 31, 0.822);
   float: left;
   margin-left: 20px;
+  margin-right: 2.5%;
   padding: 10px;
-  margin-bottom: 30px;
   text-decoration: none;
+  width: 30%;
   color: white;
-  border-radius: 5px;
+  border-radius: 1px;
   box-shadow: 0px 2px 3px 2px rgb(112, 112, 112);
+  margin-top: 10px;
 
+}
+
+.buttons-container{
+  width: 100%;
+  padding-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .enter-salary:hover{
@@ -889,13 +963,11 @@ input[type=number] {
 .summary-undertext{
   text-align: center;
   font-style: italic;
+  margin-bottom: 50px;
 }
 
 .inner-text{
   text-align: center;
-  align-content: center;
-  align-self: center;
-  align-items: center;
   width: 100%;
 }
 
@@ -907,7 +979,163 @@ input[type=number] {
   font-size: 0.8rem;
   color: white;
   font-weight: bold;
+}
 
+.form-link{
+  width: 100%;
+  font-size: 0.9rem;
+  color: rgb(182, 182, 182);
+  margin-left: 10px;
+}
+
+.support-point{
+  margin-top: 5px;
+  margin-bottom: 10px;
+  color: gray;
+  font-weight: bold;
+}
+
+
+
+.support-title{
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: gray;
+}
+
+.support-subtitle{
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-weight:500;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 1rem;
+  color: gray;
+}
+
+  .radio-sections{
+    width: 100%;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+.custom{
+  height: 20px;
+}
+
+.autocomplete-radio{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.thank-you-support{
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 100px;
+}
+
+.error{
+  text-align: center;
+  margin-top: 30px;
+  width: 100%;
+}
+
+.success{
+  text-align: center;
+  margin-top: 30px;
+  width: 100%;
+}
+
+
+.newsletter-header-input-page{
+  width: 50%;
+  margin-left: 25%;
+  border-radius: 10px;
+  margin-top: 20px;
+  
+}
+
+.newsletter-input-inner-page{
+  width: 80%;
+  border-radius: 10px;
+}
+
+.subscribe-newsletter-page{
+  width: 19%;
+  align-content: center;
+  align-items: center;
+  text-align: center;
+  padding-top: 10px;
+  float: right;
+  height: 100%;
+  border-radius: 10px;
+  background: gray;
+  color: white;
+}
+
+.subscribe-newsletter-page:hover{
+  background: rgb(173, 173, 173);
+  color: white;
+  cursor: grab;
+}
+
+.welcome-subtitle{
+
+  width: 100%;
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+.card{
+  margin-top: 20px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.918);
+  padding: 5px;
+  background: transparent;
+  color: black;
+}
+
+.welcome-title{
+  font-size: 3rem;
+  color: gray;
+  text-align: center;
+  width: 100%;
+  font-weight: bold;
+}
+
+.feedback-button{
+  background: gray;
+  padding: 10px;
+  color: white;
+  margin-top: 30px;
+  width: 150px;
+  margin-left: 50%;
+  border-radius: 5px;
+  transform: translate(-50%);
+  text-align: center;
+  border-radius: 5px;
+}
+
+.feedback-button:hover{
+  cursor: grab;
+  background: rgb(170, 170, 170);
+}
+
+.feedback{
+  width: 96%;
+  margin-left: 2%;
+  height: 150px;
+}
+
+.support-point-explanation{
+  width: 96%;
+  margin-left: 2%;
+  color: rgb(150, 150, 150);
+  font-style: italic;
 }
 
 .undertext{
@@ -925,6 +1153,10 @@ input[type=number] {
   margin-left: 5px;
   color: white;
   font-weight: normal;
+}
+
+.autocomplete-radio{
+  margin-top: 0px;
 }
 
 
@@ -1066,9 +1298,140 @@ input[type=submit]:hover{
   margin-right: 10px;
 }
 
+@media screen and (max-width: 900px){
+  .content{
+    width: 100%;
+  }
+
+  .newsletter-input-inner-page{
+    width: 100%;
+  }
+
+  .subscribe-newsletter-page{
+    width: 100%;
+    height: 40px;
+    margin-top: 10px;
+  }
+  .form{
+    width: 95%;
+  }
+
+  .stats-min{
+    width: 100%;
+    text-align: center;
+    margin: 0px;
+    padding: 0px;
+    padding: 20px;
+  }
+
+  .stats-avg{
+    width: 100%;
+    text-align: center;
+    margin: 0px;
+    padding: 0px;
+    padding: 20px;
+    border: none;
+    border-bottom: 2px solid rgb(197, 196, 196);
+  }
+
+  .stats-max{
+    border: none;
+    width: 100%;
+    text-align: center;
+    margin: 0px;
+    padding: 0px;
+    padding: 20px;
+  }
+
+  .dropdown-container{
+    width: 95%;
+    margin: 0px;
+    margin-bottom: 10px;
+    padding: 0px;
+  }
+
+  .salary-info-2{
+    padding-left: 2.5%;
+  }
+
+  .reset{
+    margin-left: 0%;
+    padding-left: 2.5%;
+  }
+
+  .enter-salary{
+    width: 90%;
+    float: left;
+    margin-left: 5%;
+    font-size: 0.8rem;
+
+  }
+
+  .enter-salary-1{
+    width: 90%;
+    margin-left: 5%;
+    font-size: 0.8rem;
+  }
+
+  .salary-info-1{
+    font-size: 0.9rem;
+  }
+
+  .autocomplete-salaries-1{
+    font-size: 0.7rem;
+  }
+  .experience-container-title{
+    font-size: 0.8rem;
+  }
+  .info-container{
+    font-size: 0.8rem;
+  }
+
+
+
+  .experience-container{
+    font-size: 0.8rem;
+  }
+
+  .additional-info-inner{
+    font-size: 0.8rem;
+  }
+
+  .info-inner{
+    font-size: 0.8rem;
+  }
+
+  .radio-sections{
+    width: 100%;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .autocomplete-radio{
+    margin: 0px;
+    padding: 0px;
+  }
+
+  .newsletter-header-input-page{
+    width: 80%;
+    margin-left: 10%;
+  }
+
+  .button-right{
+    width: 100%;
+
+  }
+
+
+
+
+}
+
 @media screen and (max-width: 550px){
   .content{
     width: 100%;
+    
   }
 
   .form{

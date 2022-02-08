@@ -27,6 +27,9 @@ function Root() {
     const [salaries, setSalaries] = useState({});
     const [salariesArr, setSalariesArr] = useState([])
     const [loadingFirebase, setLoadingFirebase] = useState(true);
+    const [careerFilter, setCareerFilter] = useState(null);
+    const [titleFilter, setTitleFilter] = useState(null);
+    const [yoeFilter, setYoeFilter] = useState(null);
 
     var companies=['Berkshire Hathaway', 'JPMorgan Chase', 'Visa', 'Mastercard', 'Bank of America', 'Wells Fargo', 'Citigroup', 
     'Morgan Stanley', 'Charles Schwab', 'American Express', 'BlackRock', 'Goldman Sachs', 'S&P Global', 'US Bancorp', 'Truist Financial', 
@@ -120,7 +123,8 @@ function Root() {
 
   return (
     <AuthContext.Provider value={{loaded, setLoaded, companies,  companiesArr, setCompaniesArr, companyLevelsHash, setCompanyLevelsHash, 
-    companyLevelsArr, setCompanyLevelsArr, selected, setSelected, max, setMax, rulerArray, setRulerArray, salariesArr, setSalariesArr, salaries, setSalaries}}>
+    companyLevelsArr, setCompanyLevelsArr, selected, setSelected, max, setMax, rulerArray, setRulerArray, salariesArr, setSalariesArr, salaries, setSalaries, careerFilter, setCareerFilter,
+    titleFilter, setTitleFilter, yoeFilter, setYoeFilter}}>
       <HashRouter>
         <div className='wrap'>
           {/* <Header/> */}

@@ -294,15 +294,17 @@ function EntryForm() {
         <div className = "content">
         <div className = 'header-wrapper'>
             <div className = "header">
-
                 <Link  to='/salaries' className = 'logo-wrap' >
                     Payscale <GiReceiveMoney/>
                 </Link>
             </div>
         </div>
+
         {submitted === false ? 
             <form autocomplete="off" onSubmit={(e)=>{handleSubmit(e)}} className = 'form'>
-                
+
+        <div className='title'>Team Structure and Promotion Timeline</div>
+        <div className='title-second' style={{fontStyle: 'italic'}}>Please help employees better understand a division's team and promotion structure by filling out the titles up to MD (or equivalent), and the minimum + average years at each level! </div>
 
             <div className='subtitle'>General Information</div>
             <div className = 'general-info'>
@@ -503,6 +505,9 @@ function EntryForm() {
                     <input id="title" className = 'half-input-titles-right' type="number" style={{border: '0.5px dashed gray'}} onFocus = {''} value = {maxYear} onChange={(e)=>{setMaxYear(e.target.value)}} name="myTitle" placeholder="Avg Years Before Promo"/>
                     </div>}
                 </div>
+
+                <div className='title-second' style={{fontStyle: 'italic', marginLeft: '0px'}}> * Please enter -1 for both inputs if there is no definite timeframe at this level </div>
+
                             
 
             <div className = 'add-level' onClick={()=>{addLevel()}}>+ Add This Level</div>

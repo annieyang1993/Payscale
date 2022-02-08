@@ -59,7 +59,9 @@ function Stats({companyName, title, division, yoe}){
         <div className = 'summary'>
             {authContext.salariesArr.map((salary, j)=>{
             var included = true
-            if (companyName!==null && companyName!== '' && !authContext.salaries[salary].company_name.toLowerCase().includes(companyName.toLowerCase())){
+            if (authContext.salaries[salary].live === false){
+                included = false;
+            } else if (companyName!==null && companyName!== '' && !authContext.salaries[salary].company_name.toLowerCase().includes(companyName.toLowerCase())){
                 included = false;
             } else if (title!==null && title!== '' && authContext.salaries[salary].title.toLowerCase() !== title.toLowerCase()){
                 included = false;
@@ -68,7 +70,7 @@ function Stats({companyName, title, division, yoe}){
                     included = false;
                 }
                 
-            } else if (yoe!==null && yoe!=='' && Number(authContext.salaries[salary].experience_total)>yoe){
+            } else if (yoe!==null && yoe!=='' && Number(authContext.salaries[salary].experience_total)>=yoe){
                 included = false;
             } else if (authContext.salaries[salary].title.trim().toLowerCase() === 'Intern'.toLowerCase()){
                 included = false;
@@ -96,7 +98,7 @@ function Stats({companyName, title, division, yoe}){
         <div className = 'stats'>
             <div className = 'stats-title'>Summary</div>
 
-            <div className = 'stats-min'>
+            {/* <div className = 'stats-min'>
                 <div>
                     Min
                 </div>
@@ -104,7 +106,7 @@ function Stats({companyName, title, division, yoe}){
                     {countTemp === 0 ? 'N/A' : currencyFormat(minTemp)}       
                 </div>
                   
-            </div>
+            </div> */}
 
             <div className = 'stats-avg'>
                 <div>
@@ -135,11 +137,11 @@ function Salaries(){
     const authContext = useContext(AuthContext);
     const [companyName, setCompanyName] = useState(null);
     const [title, setTitle] = useState(null);
-    const [division, setDivision] = useState(null);
+    const [division, setDivision] = useState(authContext.careerFilter);
     const [yoe, setYoe] = useState(null);
     const [yoeObject, setYoeObject] = useState(null);
     const [titleObject, setTitleObject] = useState(null);
-    const [divisionObject, setDivisionObject] = useState(null);
+    const [divisionObject, setDivisionObject] = useState(authContext.careerFilter === null ? null : {id: 0, value: authContext.careerFilter, label: authContext.careerFilter});
     const [page, setPage] = useState(1);
     const [average, setAverage] = useState(0);
     const [open, setOpen] = useState(null);
@@ -168,7 +170,9 @@ function Salaries(){
 
     const filterJob = (job, i, n) =>{
         var included = true
-        if (companyName!==null && companyName!== '' && !job.company_name.toLowerCase().includes(companyName.toLowerCase())){
+        if (job.live === false){
+            included = false;
+        } else if (companyName!==null && companyName!== '' && !job.company_name.toLowerCase().includes(companyName.toLowerCase())){
             included = false;
         } else if (title!==null && title!== '' && job.title.toLowerCase() !== title.toLowerCase()){
             included = false;
@@ -176,7 +180,7 @@ function Salaries(){
             if (job.career_type_other === null || job.career_type_other.toLowerCase() !== division.toLowerCase()){
                 included = false;
             }
-        } else if (yoe!==null && yoe!=='' && Number(job.experience_total)>yoe){
+        } else if (yoe!==null && yoe!=='' && Number(job.experience_total)>=yoe){
             included = false;
         }
 
@@ -424,6 +428,7 @@ function Salaries(){
             <Header/>
             <div className = 'under-header'>
                 <Stats companyName={companyName} title={title} division={division} yoe={yoe}/>
+
                 <div className = 'filters'>
                     <div className = 'salary-info-2'>
                         <div className = 'dropdown-container'>
@@ -431,7 +436,7 @@ function Salaries(){
                                 <Select
                                     value={titleObject} 
                                     className = 'select-dropdown-jobs' 
-                                    onChange={(e)=>{setTitleObject(e); setTitle(e.value)}}
+                                    onChange={(e)=>{setTitleObject(e); setTitle(e.value); authContext.setTitleFilter(e.value)}}
                                     options={titles}
                                     styles={customStyles}
                                     isMulti={false}
@@ -442,7 +447,7 @@ function Salaries(){
                                 <Select
                                     value={divisionObject} 
                                     className = 'select-dropdown-jobs' 
-                                    onChange={(e)=>{setDivisionObject(e); setDivision(e.value)}}
+                                    onChange={(e)=>{setDivisionObject(e); setDivision(e.value); authContext.setCareerFilter(e.value)}}
                                     options={divisions}
                                     styles={customStyles}
                                     isMulti={false}
@@ -453,7 +458,7 @@ function Salaries(){
                                 <Select
                                     value={yoeObject} 
                                     className = 'select-dropdown-jobs' 
-                                    onChange={(e)=>{setYoeObject(e); setYoe(e.value)}}
+                                    onChange={(e)=>{setYoeObject(e); setYoe(e.value); authContext.setYoeFilter(e.value)}}
                                     options={years}
                                     styles={customStyles}
                                     isMulti={false}
@@ -461,6 +466,8 @@ function Salaries(){
                         </div >
                     </div>
                     <div className = 'reset' onClick={()=>{resetFilters()}}>Reset Filters</div>
+
+
 
 
                         {/* <div className = 'info-container-title'>
@@ -491,14 +498,14 @@ function Salaries(){
                             </div> 
                         </div> */}
                 </div>
-                <Link to='/titlesform' className = 'enter-salary'>+ Add Promo Timeline</Link>
-                <Link to='/ops-form' className = 'enter-salary'>+ Add Break In/Exit Op</Link>
+
+                <div className = 'buttons-container'>
 
                 <Link to='/salary-form' className = 'enter-salary-1'>+ Add Compensation</Link>
-                
+                <Link to='/titlesform' className = 'enter-salary'>+ Add Promotion Timeline</Link>
+                <Link to='/ops-form' className = 'enter-salary'>+ Add Break In/Exit Op</Link>
 
-
-
+                </div>
 
 
 
@@ -550,7 +557,7 @@ function Salaries(){
                             <div className = 'autocomplete-salaries-1'>
                                 YOE
                             </div>
-                            <div className = 'undertext-title'>At Company / Total Relevant</div>
+                            <div className = 'undertext-title'> Company / Total </div>
                         </div>
 
                         <div className = 'info-container-title'>

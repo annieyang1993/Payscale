@@ -13,8 +13,6 @@ export default function Footer() {
   return (
         <div className = "footer">
             <div className = 'copyright'>© 2022 Payscale. All rights reserved.</div>
-            <div className = 'contact'>
-              Made with ❤️ in New York City</div>
             
         </div>
 
