@@ -69,7 +69,7 @@ input[type=submit] {
   padding: 20px;
   margin-left: 20%;
   font-weight: bold;
-  background: rgba(255, 255, 255, 0.774);
+  background: rgb(235, 235, 235);
   
 }
 
@@ -87,30 +87,31 @@ input[type=submit] {
 }
 
 .stats-avg{
-  border: 2px solid rgba(183, 188, 190, 0.507);
   border-bottom: none;
   border-top: none;
   padding: 20px;
-  margin-left: 30%;
+    margin: 10px;
+  margin-left: 20%;
   text-align: center;
   align-items: center;
-  width: 20%;
+  width: 30%;
   font-weight: bold;
-  background: rgba(255, 255, 255, 0.774);
+  background: rgb(235, 235, 235);
+
+  border-radius: 5px;
 }
 
 .stats-max{
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
-  border-right: 2px solid rgba(183, 188, 190, 0.507);
-
-  border-left: none;
+  border-bottom: none;
+  border-top: none;
   text-align: center;
   align-items: center;
-  width: 20%;
+  width: 30%;
   padding: 20px;
   font-weight: bold;
-  background: rgba(255, 255, 255, 0.774);
+  background: rgb(235, 235, 235);
+  border-radius: 5px;
+  margin: 10px;
 }
 
 .title{
@@ -179,6 +180,13 @@ input[type=submit] {
 
 }
 
+.tab-content-signup{
+  align-self: 'center';
+  text-align: 'right';
+  text-decoration: none;
+  color: white;
+}
+
 .tab-content:hover{
   color: gray;
 }
@@ -192,6 +200,25 @@ input[type=submit] {
   margin-bottom: 10px;
   font-size: 1.1rem;
 
+}
+
+.tab-signup{
+  text-align: 'center';
+  align-content: 'center';
+  cursor: grab;
+  margin-left: 10px;
+  margin-right: 20px;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+  background: rgb(184, 184, 184);
+  padding: 10px;
+  margin-top: -10px;
+  border-radius: 10px;
+
+}
+
+.tab-signup:hover{
+  background: rgb(224, 224, 224);
 }
 
 
@@ -415,6 +442,7 @@ input[type=submit] {
   color: rgba(129, 129, 129, 0.603);
   border-radius: 1px;
   margin-top: 30px;
+  margin-bottom: 50px;
 }
 
 .links-wrapper{
@@ -433,7 +461,8 @@ input[type=submit] {
   border-radius: 1px;
   background: rgb(239, 239, 247);
   padding: 30px;
-  margin-top: 30px;
+  margin-top: 20px;
+  margin-bottom: 50px;
   font-style: italic;
 }
 
@@ -722,7 +751,125 @@ input[type=number] {
 }
 
 .salary-info:hover{
-  cursor: grab;
+  cursor: pointer;
+}
+
+.salaries-box{
+  position: relative;
+  width: 100%;
+  border: 1px solid rgb(240, 240, 240);
+}
+
+.salaries-box-inner{
+  width: 100%;
+  height: 100%;
+}
+
+.salaries-box-inner-blur{
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+}
+
+  .dropdown-container-blur{
+    width: 95%;
+    margin: 0px;
+    margin-bottom: 10px;
+    padding: 0px;
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+    
+  }
+
+.experience-container-blur{
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+  display: flex;
+  font-size: 1rem;
+  flex-wrap: wrap;
+  width: calc(12%);
+  padding: 5px;
+  text-align: 'center';
+  color: black;
+}
+
+
+.stats-blur{
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+  width: 60%;
+  display: flex;
+  flex-wrap: wrap;
+  margin: auto;
+  align-items: center;
+  align-content: center;
+  color: gray;
+  margin-top: 70px;
+  margin-bottom: 10px;
+}
+
+.blur-effect{
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: auto;
+  margin-left: calc(50% - 125px);
+  width: 250px;
+  padding: 10px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background: white;
+  border-radius: 10px;
+  margin-top: 200px;
+  z-index: 100;
+  text-align: center;
+}
+
+.blur-effect-container{
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+}
+
+.signup-link{
+  text-decoration: none;
+  font-weight: bold;
+  color: gray;
+}
+
+.signup-link:hover{
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.proceed-without-blur:hover{
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.salaries-box-blur{
+
+  backdrop-filter: blur(2px);
+  background-color: #ccc;
+  z-index: 50;
+}
+
+.blur-effect{
+
 }
 
 .salaries-box{
@@ -881,6 +1028,17 @@ input[type=number] {
 
 }
 
+.back-2{
+  color: rgb(185, 185, 185);
+  font-size: 1.1rem;
+  font-style: italic;
+  text-align: center;
+  margin: auto;
+  margin-top: 100px;
+  text-decoration: none;
+
+}
+
 .reset:hover{
   cursor: pointer;
 }
@@ -941,8 +1099,9 @@ input[type=number] {
   border-radius: 1px;
   box-shadow: 0px 2px 3px 2px rgb(112, 112, 112);
   margin-top: 10px;
-
 }
+
+
 
 .buttons-container{
   width: 100%;
@@ -960,10 +1119,22 @@ input[type=number] {
 
 }
 
+.form-link-login{
+  color: rgb(151, 151, 151);
+  text-decoration: none;
+}
+
+.form-link-login:hover{
+  color: rgb(104, 104, 104);
+}
+
 .summary-undertext{
   text-align: center;
   font-style: italic;
   margin-bottom: 50px;
+  width: 40%;
+  margin-left: 30%;
+  font-size: 0.8rem;
 }
 
 .inner-text{
@@ -1229,6 +1400,12 @@ input::-webkit-inner-spin-button {
     margin: 0;
 }
 
+.autocomplete-half{
+  width: 49%;
+  float: left;
+  margin-bottom: 10px;
+}
+
 
 .loading{
   background-color: green;
@@ -1322,16 +1499,19 @@ input[type=submit]:hover{
     margin: 0px;
     padding: 0px;
     padding: 20px;
+    border-top: 2px solid gray;
+    border-bottom: 2px solid gray;
   }
 
   .stats-avg{
     width: 100%;
     text-align: center;
     margin: 0px;
+    margin-top: 10px;
     padding: 0px;
     padding: 20px;
     border: none;
-    border-bottom: 2px solid rgb(197, 196, 196);
+    background: rgb(235, 235, 235);
   }
 
   .stats-max{
@@ -1339,8 +1519,10 @@ input[type=submit]:hover{
     width: 100%;
     text-align: center;
     margin: 0px;
+    margin-top: 10px;
     padding: 0px;
     padding: 20px;
+    background: rgb(235, 235, 235);
   }
 
   .dropdown-container{
@@ -1434,8 +1616,42 @@ input[type=submit]:hover{
     
   }
 
+  .header-wrapper{
+    width: 100%
+  }
+
+  .tabs{
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .logo-wrap{
+    margin-left: 40%;
+  }
+
+  .under-header{
+    margin-top: 150px;
+  }
+
   .form{
     width: 95%;
+  }
+
+  .tab-content{
+    width: 100%;
+    margin-left: 0%;
+    margin-right: 0%;
+  }
+
+  .header{
+    align-items: center;
+    align-content: center;
+  }
+
+  .tab{
+    width: 33%;
+    margin-left: 0%;
+    margin-right: 0%;
   }
 
 }

@@ -15,6 +15,8 @@ import Welcome from '../pages/welcome'
 import Entry from '../pages/entryopsform'
 import TitlesForm from '../pages/titlesform'
 import SupportPayscale from '../pages/supportpayscale'
+import Signup from '../pages/signup'
+import Signin from '../pages/signin'
 import {Firebase, db, functions} from '../../config/firebase';
 
 
@@ -26,6 +28,12 @@ export default function App() {
          <Switch>
            <Route exact path="/">
               <Welcome/>
+            </Route>
+          <Route exact path="/sign-in">
+              <Signin/>
+            </Route>
+          <Route exact path="/sign-up">
+              <Signup/>
             </Route>
           <Route exact path="/salary-form">
               <SalaryForm/>

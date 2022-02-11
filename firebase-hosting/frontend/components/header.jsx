@@ -8,11 +8,15 @@ import {useLocation, withRouter, useHistory} from 'react-router-dom';
 import {BsCheckLg} from 'react-icons/bs'
 import {GiReceiveMoney, GiCash} from 'react-icons/gi'
 import {BsCoin} from 'react-icons/bs'
-
+import {AuthenticatedUserContext} from '../pages/AuthenticatedUserProvider'
+import {AiOutlineLogout} from 'react-icons/ai'
 import {AiOutlineIdcard} from 'react-icons/ai'
+import {RiLogoutCircleRLine} from 'react-icons/ri'
+const auth = Firebase.auth();
 
 export default function Header() {
     const authContext = useContext(AuthContext);
+     const { user, setUser, loggedIn, setLoggedIn } = useContext(AuthenticatedUserContext);
     const [email, setEmail] = useState('');
     const [subscribed, setSubscribed] = useState(false);
     const [subscribeError, setSubscribeError] = useState(false);
@@ -87,13 +91,25 @@ export default function Header() {
                 {/* <div className = "tab">
                         <Link to="/paths" className = "tab-content">Titles </Link>              
                 </div> */}
+                {/* <div className = "tab" style={{marginTop: '-5px', fontSize: '0.8rem'}}>
+                        <Link to="/support-payscale" className = "tab-content" >Support <br/> Payscale <GiReceiveMoney/></Link>              
+                </div> */}
                 <div className = "tab">
                         <Link to="/salaries" className = "tab-content">Salaries </Link>              
                 </div>
 
-                <div className = "tab" style={{marginTop: '-5px', fontSize: '0.8rem'}}>
-                        <Link to="/support-payscale" className = "tab-content" >Support <br/> Payscale <GiReceiveMoney/></Link>              
-                </div>
+
+                {authContext.userInfo ? <div className = 'tab'> <div className = 'tab-content'>Welcome, {authContext.userData.firstname}!</div></div> : <div className = "tab" >
+                        <Link to="/sign-in" className = "tab-content" > Sign in</Link>  
+                </div>}
+
+                {authContext.userInfo ? <div className = 'tab' onClick={()=>{auth.signOut(); authContext.setUserData({})}}> <RiLogoutCircleRLine className = 'tab-content'/></div> : null}
+
+                
+
+               {!authContext.userInfo ?  <div className = "tab-signup" >
+                        <Link to="/sign-up" className = "tab-content-signup" > Sign Up </Link>              
+                </div> : null}
             </div> 
             </div>
     </div>

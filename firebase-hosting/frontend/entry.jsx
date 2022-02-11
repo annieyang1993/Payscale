@@ -11,11 +11,15 @@ import Levels from './pages/levels'
 import Header from './components/header'
 import Entry from './pages/entryopsform'
 import TitlesForm from './pages/titlesform'
-
+import {AuthenticatedUserContext} from './pages/AuthenticatedUserProvider'
 import 'babel-polyfill';
 
+const auth = Firebase.auth();
+
 function Root() {
+    const authContext = useContext(AuthContext);
     // Declare a new state variable, which we'll call "count"
+     const { user, setUser} = useContext(AuthenticatedUserContext);
     const [companiesArr, setCompaniesArr] = useState([])
     const [page, setPage] = useState(1);
     const [companyLevelsHash, setCompanyLevelsHash] = useState({});
@@ -30,6 +34,10 @@ function Root() {
     const [careerFilter, setCareerFilter] = useState(null);
     const [titleFilter, setTitleFilter] = useState(null);
     const [yoeFilter, setYoeFilter] = useState(null);
+    const [userInfo, setUserInfo] = useState(null)
+    const [userData, setUserData] = useState({});
+    const [uid, setUid] = useState(null);
+    const [blur, setBlur] = useState(false);
 
     var companies=['Berkshire Hathaway', 'JPMorgan Chase', 'Visa', 'Mastercard', 'Bank of America', 'Wells Fargo', 'Citigroup', 
     'Morgan Stanley', 'Charles Schwab', 'American Express', 'BlackRock', 'Goldman Sachs', 'S&P Global', 'US Bancorp', 'Truist Financial', 
@@ -107,10 +115,13 @@ function Root() {
           tempHash[salary.id] = salary.data();
           
         })
-        console.log(tempHash);
         setSalaries(tempHash);
         setSalariesArr(tempArr.reverse());
         setLoadingFirebase(false)
+    }
+
+    const getUser = async() =>{
+
     }
 
 
@@ -118,13 +129,28 @@ function Root() {
     useEffect(async ()=>{
       getLevels();
       getSalaries();
+      const unsubscribeAuth = auth.onAuthStateChanged(async authenticatedUser => {
+      try {
+        await (authenticatedUser ? setUserInfo(authenticatedUser) : setUserInfo(null));
+        // await (authenticatedUser ? setBlur(false) : setBlur(true));
+        await (authenticatedUser ? setUid(authenticatedUser.uid) : setUid(null));
+        console.log(authenticatedUser.uid)
+        var userTemp = await Firebase.firestore().collection('users').doc(`${authenticatedUser.uid}`).get();
+        setUserData(userTemp.data());
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
+    //unsubscribe auth listener on unmount
+    return unsubscribeAuth;
 
     }, [])
 
   return (
     <AuthContext.Provider value={{loaded, setLoaded, companies,  companiesArr, setCompaniesArr, companyLevelsHash, setCompanyLevelsHash, 
     companyLevelsArr, setCompanyLevelsArr, selected, setSelected, max, setMax, rulerArray, setRulerArray, salariesArr, setSalariesArr, salaries, setSalaries, careerFilter, setCareerFilter,
-    titleFilter, setTitleFilter, yoeFilter, setYoeFilter}}>
+    titleFilter, setTitleFilter, yoeFilter, setYoeFilter, user, setUser, userInfo, setUserInfo, userData, setUserData, blur, setBlur, uid, setUid}}>
       <HashRouter>
         <div className='wrap'>
           {/* <Header/> */}

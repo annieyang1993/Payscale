@@ -259,6 +259,18 @@ function EntryForm() {
 
         if (submit === true){
             setLoading(true)
+
+            if (!authContext.userInfo === false){
+                await Firebase.firestore().collection('users').doc(authContext.uid).set({
+                    contribution: true,
+                    timeline: true
+                }, {merge: true})
+
+                var dataTemp = authContext.userData;
+                dataTemp['contribution'] = true;
+                dataTemp['timeline'] = true;
+                authContext.setUserData(dataTemp);
+            }
             await Firebase.firestore().collection('leveling').doc('leveling').collection(company.toLowerCase()).doc().set(
                 {company_name: company,
                 division: division,
@@ -267,8 +279,10 @@ function EntryForm() {
                 levels: levels,
                 levels_other: levelsOther,
                 min_years: minYears,
-                max_years: maxYears}
-            )
+                max_years: maxYears,
+                created_on: new Date(),
+                uid: authContext.uid
+                })
             setSubmitted(true);
             setLoading(false);
             setSubmitClicked(true);
@@ -429,8 +443,6 @@ function EntryForm() {
                                 minYearsTemp.splice(i, 1);
                                 maxYearsTemp.splice(i, 1);
 
-                                console.log(levelsTemp);
-                                console.log(levelsOtherTemp);
 
 
                                 setLevels(levelsTemp);

@@ -5,7 +5,7 @@ import {useStripe, useElements, PaymentElement, CardElement,} from '@stripe/reac
 import {Elements, StripeProvider} from '@stripe/react-stripe-js';
 import {loadStripe} from '@stripe/stripe-js';
 import {Firebase, db, functions} from '../../config/firebase';
-import {GiReceiveMoney} from 'react-icons/gi'
+import {GiRayGun, GiReceiveMoney} from 'react-icons/gi'
 import {BsCoin} from 'react-icons/bs'
 import {BsCheckLg} from 'react-icons/bs'
 import {BsFillCalendarCheckFill, BsNewspaper} from 'react-icons/bs'
@@ -77,7 +77,6 @@ function Stats({companyName, title, division, yoe}){
             }
             
             
-            console.log(included)
 
             if (included === true && authContext.salaries[salary].title.toLowerCase()!=='Intern'){
                 if (minTemp===0){
@@ -95,7 +94,8 @@ function Stats({companyName, title, division, yoe}){
 
         })}
 
-        <div className = 'stats'>
+        {authContext.userInfo && authContext.userData.contribution? 
+        <div className = 'stats' onClick={()=>{}}>
             <div className = 'stats-title'>Summary</div>
 
             {/* <div className = 'stats-min'>
@@ -126,8 +126,43 @@ function Stats({companyName, title, division, yoe}){
                 </div>
             </div>
 
-        </div>
-        <div className = 'summary-undertext'>Internships are excluded from summary calculations.</div>
+        </div> :
+        <Link to = '/sign-up' className = 'stats-blur' onClick={()=>{}}>
+            <div className = 'stats-title'>Summary</div>
+
+            {/* <div className = 'stats-min'>
+                <div>
+                    Min
+                </div>
+                <div>
+                    {countTemp === 0 ? 'N/A' : currencyFormat(minTemp)}       
+                </div>
+                  
+            </div> */}
+
+            <div className = 'stats-avg'>
+                <div>
+                    Avg
+                </div>
+                <div>
+                    {countTemp === 0 ? 'N/A' : currencyFormat((totalTemp/countTemp).toFixed(0))}
+                </div>
+            </div>
+
+            <div className = 'stats-max'>
+                <div>
+                    Max
+                </div>
+                <div>
+                    {countTemp === 0 ? 'N/A' : currencyFormat(maxTemp)}       
+                </div>
+            </div>
+
+        </Link>}
+        {!authContext.userInfo ? <div  className = 'summary-undertext' style={{color: 'gray', textDecoration: 'none', textAlign: 'center'}}> <br/> <Link to='/sign-up' style={{color: 'gray', textDecoration: 'none', textAlign: 'center'}}>To view summary stats, please create an account. It's 100% free and helps increase the culture around salary transparency ></Link></div> : 
+        authContext.userInfo && !authContext.userData.contribution ? <div className = 'summary-undertext'>Please contribute to one of the green forms below to access all features! It's 100% free, takes less than 45 seconds, and helps increase salary transparency for the finance community! </div> :
+        <div className = 'summary-undertext'>Thank you for contributing! Please stay tuned as we continue to provide you with more data and better insights. </div> }
+        {/* <div className = 'summary-undertext'>Internships are excluded from summary calculations. </div> */}
 
         </div>
     )
@@ -145,6 +180,7 @@ function Salaries(){
     const [page, setPage] = useState(1);
     const [average, setAverage] = useState(0);
     const [open, setOpen] = useState(null);
+    const [loggedIn, setLoggedIn] = useState(!!authContext.userInfo);
 
     var minTemp = 0;
     var maxTemp = 0;
@@ -180,7 +216,7 @@ function Salaries(){
             if (job.career_type_other === null || job.career_type_other.toLowerCase() !== division.toLowerCase()){
                 included = false;
             }
-        } else if (yoe!==null && yoe!=='' && Number(job.experience_total)>=yoe){
+        } if (yoe!==null && yoe!=='' && Number(job.experience_total)>=yoe){
             included = false;
         }
 
@@ -206,21 +242,27 @@ function Salaries(){
 
     const [titles, setTitles] = useState([
         {id: 0, value:  null, label: 'No Filter'},
+        {id: 12, value:  'Intern', label: 'Intern'},
         {id: 0, value:  'Analyst', label: 'Analyst'},
         {id: 1, value:  'Senior Analyst', label: 'Senior Analyst'},
         {id: 2, value:  'Associate', label: 'Associate'},
-        {id: 3, value:  'Director', label: 'Director'},
+        {id: 9, value:  'Associate Vice President', label: 'Associate Vice President'},
+        {id: 4, value:  'Manager', label: 'Manager'},
+        {id: 4, value:  'Senior Manager', label: 'Senior Manager'},
         {id: 4, value:  'Vice President', label: 'Vice President'},
+        {id: 8, value:  'Senior Vice President', label: 'Senior Vice President'},
+        {id: 10, value:  'Associate Director', label: 'Associate Director'},
+        {id: 3, value:  'Director', label: 'Director'},
+        {id: 11, value:  'Executive Director', label: 'Executive Director'},
         {id: 5, value:  'Managing Director', label: 'Managing Director'},
         {id: 6, value:  'Partner', label: 'Partner'},
         {id: 7, value:  'Portfolio Manager', label: 'Portfolio Manager'},
-        {id: 8, value:  'Senior Vice President', label: 'Senior Vice President'},
-        {id: 9, value:  'Associate Vice President', label: 'Associate Vice President'},
-        {id: 10, value:  'Associate Director', label: 'Associate Director'},
-        {id: 11, value:  'Executive Director', label: 'Executive Director'},
-        {id: 12, value:  'Intern', label: 'Intern'},
         {id: 13, value:  'Other', label: 'Other'},
     ]);
+
+    const notSignedIn = [
+        {id: 0, value:  null, label: 'Please Sign in to use filters'},
+    ];
 
     const [divisions, setDivisions] = useState([
         {id: 0, value:  null, label: 'No Filter'},
@@ -303,6 +345,8 @@ function Salaries(){
     };
 
     useEffect(async () => {
+        console.log(authContext.userInfo)
+        setLoggedIn(!!authContext.userInfo)
         // autocomplete(document.getElementById("company1"), authContext.companies, setCompanyName)
         // document.addEventListener("wheel", function(event){
         //     if(document.activeElement.type === "number"){
@@ -431,6 +475,7 @@ function Salaries(){
 
                 <div className = 'filters'>
                     <div className = 'salary-info-2'>
+                        {authContext.userInfo && authContext.userData.contribution?
                         <div className = 'dropdown-container'>
                             <div for="contract" className = 'dropdown-label-jobs'>Title:</div>
                                 <Select
@@ -441,7 +486,17 @@ function Salaries(){
                                     styles={customStyles}
                                     isMulti={false}
                                 />
-                            </div>
+                            </div> : <div className = 'dropdown-container'>
+                            <div for="contract" className = 'dropdown-label-jobs'>Title:</div>
+                                <Select
+                                    value={null} 
+                                    className = 'select-dropdown-jobs' 
+                                    options={notSignedIn}
+                                    styles={customStyles}
+                                    isMulti={false}
+                                />
+                                
+                            </div> }
                         <div className = 'dropdown-container'>
                             <div for="contract" className = 'dropdown-label-jobs'>Division:</div>
                                 <Select
@@ -453,6 +508,7 @@ function Salaries(){
                                     isMulti={false}
                                 />
                         </div>
+                        {authContext.userInfo && authContext.userData.contribution?
                         <div className = 'dropdown-container'>
                             <div for="contract" className = 'dropdown-label-jobs'>Years of Experience (YOE):</div>
                                 <Select
@@ -463,7 +519,16 @@ function Salaries(){
                                     styles={customStyles}
                                     isMulti={false}
                                 />
-                        </div >
+                        </div > :  <div className = 'dropdown-container'>
+                            <div for="contract" className = 'dropdown-label-jobs'>Years of Experience (YOE):</div>
+                                <Select
+                                    value={null} 
+                                    className = 'select-dropdown-jobs' 
+                                    options={notSignedIn}
+                                    styles={customStyles}
+                                    isMulti={false}
+                                />
+                        </div >}
                     </div>
                     <div className = 'reset' onClick={()=>{resetFilters()}}>Reset Filters</div>
 
@@ -568,15 +633,20 @@ function Salaries(){
                         </div>
             </div>
 
-            <div className = 'salaries-box'>
-
+            <div className = 'salaries-box' >
+            {authContext.blur && authContext.salariesArr.length > 0 ? <div className = 'blur-effect'>
+                <Link to='/sign-up' className = 'signup-link'>Please sign up and upload compensation to access all data ></Link>
+                <div style={{fontSize: '0.9rem', fontStyle: 'italic', marginTop: '10px'}}>You'll still be able to view salary information without it, but contributing helps increase salary transparency, and helps the community make better career decisions. </div>
+                <div style={{fontSize: '0.9rem', marginTop: '10px'}} className = 'proceed-without-blur' onClick={()=>{authContext.setBlur(false)}}>No thanks, proceed to salaries ></div>
+            </div> : null}
+            <div className = {authContext.blur ? 'salaries-box-inner-blur' :'salaries-box-inner'}>
             {authContext.salariesArr.map((salary, i)=>{
                 if (filterJob(authContext.salaries[salary], i, authContext.salariesArr.length)===true){
                     entries+=1;
                     if (numShown < page*10){
                         numShown+=1;
                         return (
-                            <div className = 'salary-info' onClick={()=>{if (open===i){setOpen(null)} else{setOpen(i)}}} style={entries%2===0 ? {backgroundColor: 'rgb(240, 240, 240)'} : {backgroundColor: 'transparent'}}>
+                            <div className = 'salary-info' onClick={()=>{if (!authContext.blur && open===i){setOpen(null)} else if (!authContext.blur){setOpen(i)}}} style={entries%2===0 ? {backgroundColor: 'rgb(240, 240, 240)'} : {backgroundColor: 'transparent'}}>
                                 <div className = 'info-container'>
                                 <div>{authContext.salaries[salary]['company_name']}</div>
                                 <div className = 'undertext'>{authContext.salaries[salary]['location']}</div>
@@ -586,15 +656,22 @@ function Salaries(){
                                 <div> {authContext.salaries[salary]['career_type'].trim() ==='Other' ? authContext.salaries[salary]['career_type_other'] : authContext.salaries[salary]['career_type']} </div>
                                 <div className = 'undertext'> {authContext.salaries[salary]['group'].trim() ==='Other' ? '- ' + authContext.salaries[salary]['group_other'] : authContext.salaries[salary]['group']}</div>
                                 </div>
+                                {authContext.userInfo && authContext.userData.contribution ? 
 
                                 <div className = 'experience-container'>
-                                <div>{authContext.salaries[salary]['title']}</div>
-                                </div>
+                                <div>{authContext.salaries[salary]['title'].trim() === 'Other' ? authContext.salaries[salary]['title_other'] : authContext.salaries[salary]['title']}</div>
+                                </div> : 
+                                <Link to = '/sign-up' className = 'experience-container-blur'>
+                                <div>{authContext.salaries[salary]['title'].trim() === 'Other' ? authContext.salaries[salary]['title_other'] : authContext.salaries[salary]['title']}</div>
+                                </Link>}
 
-
+                                {authContext.userInfo && authContext.userData.contribution ? 
                                 <div className = 'experience-container'>
                                 <div className = 'inner-text'>{authContext.salaries[salary]['experience_company']}/{authContext.salaries[salary]['experience_total']}</div>
-                                </div>
+                                </div> : 
+                                <Link className = 'experience-container-blur'>
+                                <div className = 'inner-text'>{authContext.salaries[salary]['experience_company']}/{authContext.salaries[salary]['experience_total']}</div>
+                                </Link>}
 
                                 <div className = 'info-container'>
                                 <div> <div className = 'total'>{currencyFormat(Number(authContext.salaries[salary]['salary']) + Number(authContext.salaries[salary]['bonus']))} </div> <div className = 'signing'>{Number(authContext.salaries[salary]['signing_bonus']) === 0 ? '' : `+ ${currencyFormat(Number(authContext.salaries[salary]['signing_bonus']))} signing`}</div></div>
@@ -637,8 +714,9 @@ function Salaries(){
                                   
                 }
                 
-            })}
+            })}</div>
             </div>
+
 
             {entries>numShown ? 
                             <div className = 'see-more' onClick={()=>{setPage(page+1)}}>

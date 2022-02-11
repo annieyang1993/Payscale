@@ -253,11 +253,11 @@ function EntryForm() {
         <div className = 'under-header'>
         <div className = 'support-title'>Support Payscale</div>
 
-        <div className = 'support-subtitle'> Payscale's goal is to provide increasingly comprehensive and granular data that's accurate, useful, and easy to access. If you think increased compensation and information transparency is beneficial to you or society, please consider supporting Payscale in one of the following ways: </div> <br/>
+        <div className = 'support-subtitle'> The goal is to provide you with increasingly comprehensive data that's accurate, useful, and easy to access. If you think increased compensation and information transparency is beneficial to you, consider supporting Payscale in one of the following ways: </div> <br/>
 
         <div className = 'support-point-wrapper' style={{borderTopLeftRadius: '10px', borderTopRightRadius: '10px', background: 'rgb(231, 231, 243)', padding: '10px', paddingLeft: '15px', paddingRight: '15px', paddingBottom: '20px'}}>
-                <div className = 'support-point' >1. Making a small donation to support Payscale </div>
-        <div className = 'support-point-explanation'>Your contribution helps run the site smoothly, and helps provide you and others with more granular data and useful insights. Server and hosting costs currently total ~$100/month before scaling, and your contribution would go towards maintaining server costs and growing the website!
+                <div className = 'support-point' >1. Making a small donation </div>
+        <div className = 'support-point-explanation'>Your contribution helps run the site smoothly, and helps provide you and others with more granular data and useful insights. Server and hosting costs ~$100/month before scaling, and your contribution would go towards maintaining server costs and growing the database
 
         <br/> <br/>
        

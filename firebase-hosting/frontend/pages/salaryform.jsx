@@ -213,6 +213,19 @@ function SalaryPost() {
 
         if (submit === true){
             setLoading(true)
+            
+
+            if (!authContext.userInfo === false){
+                await Firebase.firestore().collection('users').doc(authContext.uid).set({
+                    contribution: true,
+                    salary: true
+                }, {merge: true})
+
+                var dataTemp = authContext.userData;
+                dataTemp['contribution'] = true;
+                dataTemp['salary'] = true;
+                authContext.setUserData(dataTemp);
+            }
             await Firebase.firestore().collection('salaries').doc().set({
                 company_name: companyName,
                 career_type: careerType,
@@ -234,6 +247,7 @@ function SalaryPost() {
                 year: year,
                 other_details: otherInfo,
                 created_on: new Date(),
+                uid: authContext.uid,
                 live: false
             })
             if (authContext.companies.includes(companyName)){
@@ -297,7 +311,7 @@ function SalaryPost() {
     /*An array containing all the country names in the world:*/
 
     var roles=['Investment Banking', 'Private Equity', 'Sales and Trading - Sales', 'Sales and Trading - Trading', 'Proprietary trading', 'Quant trading', 'Quantitative Research', 'Corporate Banking', 'Equity Research', 'Accounting', 'Investment Analyst', 'Management Consulting', 'Hedge Fund', 'Venture Capital', 'Private Banking', 'Asset Management', 'Operations', 'FP&A', 'Other']
-    var titles=['Analyst', 'Senior Analyst', 'Associate', 'Director', 'Vice President', 'Managing Director', 'Partner', 'Portfolio Manager', 'Senior Vice President', 'Associate Vice President', 'Associate Director', 'Executive Director', 'Intern', 'Other']
+    var titles=['Intern', 'Analyst', 'Senior Analyst', 'Associate', 'Manager', 'Senior Manager', 'Associate Vice President', 'Vice President', 'Senior Vice President', 'Associate Director', 'Director', 'Executive Director', 'Managing Director', 'Partner', 'Portfolio Manager', 'Other']
     var locations=['Toronto, Ontario', 'Montreal, Quebec', 'Vancouver, British Columbia', 'Calgary, Alberta', 'New York, New York', 'Ottawa, Ontario', 'Edmonton, Alberta', 'Missisauga, Ontario', 'Winnipeg, Manitoba', 
     'Brampton, Ontario', 'Hamilton, Ontario', 'San Francisco, California', 'Los Angeles, California', 'Chicago, Illinois', 'San Mateo, California', 'Houston, Texas', 'Phoenix, Arizona', 'Philadelphia, Pennsylvania', 'San Antonio, Texas', 'San Diego, California', 'San Jose, California', 'Dallas, Texas',
     'Austin, Texas', 'San Jose, California', 'Forth Worth, Texas', 'Jacksonville, Florida', 'Charlotte, North Carolina', 'Seattle, Washington', 'Denver, Colorado', 'Washington, DC', 'Boston, Massachussetts', 'Detroit, Michigan', 'Portland, Oregon',  'Remote', 'MCOL', 'HCOL', 'LCOL', 'Other', 'Beijing, China', 'Shanghai, China', 'India', 'Indonesia', 'Pakistan',
@@ -323,7 +337,6 @@ function SalaryPost() {
         {submitted === false ? 
             <form autocomplete="off" onSubmit={(e)=>{handleSubmit(e)}} className = 'form'>
             <div className='title'>Add Compensation</div>
-            <div className='title-second'>Please fill out this form to help increase compensation transparency for employees! </div>
 
             <div className='subtitle'>General</div>
             <div className = 'general-info'>
@@ -529,7 +542,7 @@ function SalaryPost() {
                 <div className='thank-you'>Thank You!</div>
                 <div className = 'thank-you-inner'>
 
-                    <div>Your submission helps increase transparency around total compensation within finance! </div>
+                    <div>Your submission helps increase salary transparency and helps others make better career decisions. </div>
                     <br/><br/><br/>
                     
                     <Link to='/salaries' className = 'back'>Back to salaries ></Link>

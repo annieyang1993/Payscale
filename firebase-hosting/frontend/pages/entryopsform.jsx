@@ -51,7 +51,7 @@ function EntryForm() {
 
     const [generalError, setGeneralError] = useState(null);
 
-    const [info, setInfo] = useState({})
+    const [info, setInfo] = useState({uid: authContext.uid, created_on: newDate()})
 
     const [additionalComments, setAdditionalComments] = useState(null);
 
@@ -329,7 +329,6 @@ function EntryForm() {
             var infoTemp = info;
             infoTemp[key] = x[0].innerText
             setInfo(infoTemp); 
-            console.log(x[0].innerText);
             
         
     });
@@ -423,6 +422,17 @@ function EntryForm() {
 
         if (submit === true){
             setLoading(true)
+            if (!authContext.userInfo === false){
+                await Firebase.firestore().collection('users').doc(authContext.uid).set({
+                    contribution: true,
+                    exit_op: true
+                }, {merge: true})
+
+                var dataTemp = authContext.userData;
+                dataTemp['contribution'] = true;
+                dataTemp['exit_op'] = true;
+                authContext.setUserData(dataTemp);
+            }
             await Firebase.firestore().collection('opportunities').doc().set(
                 info
             )

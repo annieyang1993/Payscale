@@ -55,7 +55,6 @@ function Levels() {
     }
 
     useEffect(async () => {
-        console.log(max)
     }, [])
 
 
@@ -96,8 +95,6 @@ function Levels() {
             {authContext.loaded ? 
             <div className = 'scale' style={{ width: '20px'}}>
                 {authContext.rulerArray.map((year, i)=>{
-                    console.log(i)
-                    console.log(authContext.max)
                     return(
                         <div className = 'step' key={i}>{i+1}</div>
                     )
