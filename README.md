@@ -41,4 +41,4 @@ I used React on the frontend and Firebase (Cloud Firestore, Storage, Authenticat
 
 Future Features
 --------------------------
-1. In the future, I'd like to allow users to save compensation data for ease of access, create career progression/title comparisons charts between companies, as well as allow users to comment and share blog psots. 
+In the future, I'd like to allow users to save compensation data for ease of access, create career progression/title comparisons charts between companies, as well as allow users to comment and share blog psots. 
