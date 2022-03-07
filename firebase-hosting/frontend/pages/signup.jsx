@@ -40,22 +40,30 @@ function Signup() {
     useEffect(async () => {
     }, [])
 
+    const actionCodeSettings = {
+        // URL you want to redirect back to. The domain (www.example.com) for this
+        // URL must be in the authorized domains list in the Firebase Console.
+        url: 'https://payscale.finance/#/sign-in-verification',
+        // This must be true.
+        handleCodeInApp: true,
+    };
 
     const handleSubmit = async (e) =>{
         e.preventDefault();
         setSubmitClicked(true);
         setLoading(true);
-        if (password === '' || passwordAgain === '' || firstName === '' || lastName === '' || email === ''){
+        if (firstName === '' || lastName === '' || email === '' ||password === '' ||passwordAgain === ''){
             setSignupError('Please fill out all form fields.');
             setLoading(false)
+        } else if (password !== passwordAgain){
+            setSignupError('Please ensure passwords match.');
+            setLoading(false)
         }
-        else if (password!==passwordAgain){
-        setSignupError('Please ensure that password match.')
-        setLoading(false)
-            } else{
+        else{
         setSignupError('');
         await auth.createUserWithEmailAndPassword(email, password)
-          .then(function(cred){
+       // auth.sendSignInLinkToEmail(email, actionCodeSettings)
+          .then(function (cred){
             Firebase.firestore().collection('users').doc(`${cred.user.uid}`).set({
               email: email,
               firstname: firstName,
@@ -65,16 +73,36 @@ function Signup() {
               exit_op: false,
               timeline: false
             }, {merge: true}).then(()=>{
-          })
-          setSubmitted(true);
+                auth.signOut(); 
+                authContext.setUserData({});
+                auth.sendSignInLinkToEmail(email, actionCodeSettings)
+                .then(() => {
+                        // The link was successfully sent. Inform the user.
+                        // Save the email locally so you don't need to ask the user for it again
+                        // if they open the link on the same device.
+                        window.localStorage.setItem('emailForSignIn', email);
+                        // ...
+                    })
+                    .catch((error) => {
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                        console.log(error);
+                        setLoginError("Sorry, the login link could not be sent to this email.");
+                    });
+            }).catch((error)=>{
+                console.log(error);
+            })
+
+            
+
+
+
+            setSubmitted(true);
           
           })
           .catch((error)=>{
-            if (error.message === 'The email address is badly formatted.'){
+              console.log(error);
               setSignupError('Please enter a valid email address.');
-            } else{
-              setSignupError(error.message);
-            }
 
             
         });
@@ -95,11 +123,10 @@ function Signup() {
                 </Link>
             </div>
         </div>
-        {submitted === false ? 
             <form autocomplete="off" onSubmit={(e)=>{handleSubmit(e)}} className = 'form'>
             <div className='label' style={{fontWeight: 'bold', fontSize: '1.5rem', width: '100%', textAlign: 'center', marginBottom: '30px'}}>Sign up</div>
             <div style={{width: '100%', textAlign: 'center', fontSize: '0.9rem'}}>
-                This changes the overall culture around salary transparency and helps individuals make more informed career decisions.
+                Please sign up and contribute to view detailed salary information. This helps change the overall culture around salary transparency and helps individuals make more informed career decisions.
             </div> <br/><br/>
             
                        {submitClicked && firstName === '' ? 
@@ -170,14 +197,13 @@ function Signup() {
                 <br/>
             </div>}<br/>
 
-            <input value = {loading ? 'Loading...' : 'Submit'} type="submit"/>
+            <input disabled = {loading} value = {loading ? 'Loading...' : !submitted? 'Sign Up' : 'Email Sent'} type="submit"/>
             <div style={{width: '100%', marginTop: '20px', textAlign: 'center', color: 'rgba(255, 0, 0, 0.514)'}}>{signupError}</div>
             <div style={{width: '100%', textAlign: 'center', fontSize: '0.8rem'}}>
                 If you've already filled out a salary form, please contact payscalefinance.info@gmail.com!
             </div>
             
-            </form> : 
-            <SalaryForm/>}
+            </form> 
 
 
             <div className = 'bottom-spacer'></div>

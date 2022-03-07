@@ -13,9 +13,24 @@ input[type=number]{
 
 
 input[type=text] {
-  background-color: #f1f1f1;
+  /* background-color: #f1f1f1; */
   width: 100%;
 }
+
+h2 {
+  font-size: 1.1rem;
+}
+
+h1 {
+  font-size: 1.7rem;
+  font-weight: normal;
+  color: rgb(75, 75, 75);
+  margin-bottom: 10px;
+
+}
+
+
+
 input[type=submit] {
   background-color: green;
   color: #fff;
@@ -36,26 +51,27 @@ input[type=submit] {
   padding: 0px;
   align-items: 'center';
   display: flex;
-  background: rgba(255, 255, 255, 0.596);
+  background: rgba(255, 255, 255, 0.863);
 }
 
 .stats{
-  width: 60%;
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   margin: auto;
-  align-items: center;
-  align-content: center;
+  align-items: flex-start;
+  align-content: flex-start;
   color: gray;
-  margin-top: 70px;
+  margin-top: 0px;
   margin-bottom: 10px;
+  text-decoration: none;
 }
 .stats-title{
   width: 100%;
   text-align: center;
   margin-bottom: 20px;
   font-size: 1.5rem;
-  color: gray;
+  color: rgba(24, 25, 116, 0.712);
 
 }
 
@@ -70,8 +86,9 @@ input[type=submit] {
   margin-left: 20%;
   font-weight: bold;
   background: rgb(235, 235, 235);
-  
 }
+
+
 
 .total{
   float: left;
@@ -96,9 +113,119 @@ input[type=submit] {
   align-items: center;
   width: 30%;
   font-weight: bold;
-  background: rgb(235, 235, 235);
-
+  /* background: rgba(106, 108, 212, 0.199); */
+  border: 1px solid rgb(231, 231, 231);
   border-radius: 5px;
+  background: rgba(255, 255, 255, 0.411);
+}
+
+.stats-left{
+  border-bottom: none;
+  border-top: none;
+  margin: 10px;
+  margin-right: 0px;
+  text-align: center;
+  align-items: center;
+  margin-left: 0%;
+  padding: 0px;
+  width: 100%;
+  color: black;
+  display: flex;
+  flex-wrap: wrap;
+  font-weight: bold;
+  /* background: rgba(106, 108, 212, 0.199); */
+  border: 1px solid rgb(175, 173, 173);
+  border-radius: 5px;
+  background: rgba(77, 77, 128, 0.096);
+}
+
+.ten-percent{
+  border-bottom: none;
+  border-top: none;
+  margin: 10px;
+  margin-right: 0px;
+  text-align: center;
+  align-items: center;
+  margin-left: 0%;
+  padding: 0px;
+  width: 100%;
+  color: black;
+  display: flex;
+  flex-wrap: wrap;
+  font-weight: bold;
+  /* background: rgba(106, 108, 212, 0.199); */
+  border-radius: 5px;
+  background: rgba(77, 77, 128, 0.096);
+}
+
+.ten-percent:hover{
+  cursor: pointer;
+}
+
+.ninety-percent:hover{
+  cursor: pointer;
+}
+
+.ninety-percent{
+  border-bottom: none;
+  border-top: none;
+  margin: 10px;
+  margin-right: 0px;
+  text-align: center;
+  align-items: center;
+  margin-left: 0%;
+  padding: 0px;
+  width: 100%;
+  color: black;
+  display: flex;
+  flex-wrap: wrap;
+  font-weight: bold;
+  /* background: rgba(106, 108, 212, 0.199); */
+  border-radius: 5px;
+  background: rgba(77, 77, 128, 0.096);
+}
+
+.ten-percent-wrapper{
+  width: 47%;
+}
+
+.percentile-wrapper{
+  width: 31%;
+  margin: 1%;
+}
+
+.percentile-wrapper-specific{
+  width: 90%;
+  margin: 5%;
+}
+
+.median-wrapper{
+  width: 38%;
+  margin: 1%;
+}
+
+.ninety-percent-wrapper{
+  width: 47%;
+  margin-left: 6%;
+}
+
+.stats-right{
+  border-bottom: none;
+  border-top: none;
+  text-align: center;
+  align-items: center;
+  width: 50%;
+  padding: 20px;
+  height: 100%;
+  font-weight: bold;
+  /* background: rgba(106, 108, 212, 0.199); */
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  margin: 10px;
+  margin-left: 0px;
+  border: 1px solid rgb(231, 231, 231);
+  border-left: none;
+  background: rgba(255, 255, 255, 0.411);
 }
 
 .stats-max{
@@ -109,9 +236,11 @@ input[type=submit] {
   width: 30%;
   padding: 20px;
   font-weight: bold;
-  background: rgb(235, 235, 235);
+  /* background: rgba(106, 108, 212, 0.199); */
   border-radius: 5px;
   margin: 10px;
+  border: 1px solid rgb(231, 231, 231);
+  background: rgba(255, 255, 255, 0.411);
 }
 
 .title{
@@ -156,7 +285,7 @@ input[type=submit] {
 
 .logo-wrap{
   font-size: 1.4rem;
-  color: rgb(185, 185, 185);
+  color: gray;
   margin-left: 10px;
   text-decoration: none;
   margin-top: -10px;
@@ -176,7 +305,7 @@ input[type=submit] {
   align-self: 'center';
   text-align: 'right';
   text-decoration: none;
-  color: rgb(184, 184, 184);
+  color: gray;
 
 }
 
@@ -188,10 +317,32 @@ input[type=submit] {
 }
 
 .tab-content:hover{
-  color: gray;
+  color: lightgray;
 }
 
 .tab{
+  text-align: 'center';
+  align-content: 'center';
+  cursor: grab;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+
+}
+
+.tab-name{
+  text-align: 'center';
+  align-content: 'center';
+  cursor: grab;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+
+}
+
+.tab-exit{
   text-align: 'center';
   align-content: 'center';
   cursor: grab;
@@ -210,15 +361,15 @@ input[type=submit] {
   margin-right: 20px;
   margin-bottom: 10px;
   font-size: 1.1rem;
-  background: rgb(184, 184, 184);
+  background: rgb(6, 9, 170);
   padding: 10px;
   margin-top: -10px;
-  border-radius: 10px;
+  border-radius: 5px;
 
 }
 
 .tab-signup:hover{
-  background: rgb(224, 224, 224);
+  background: rgba(6, 9, 170, 0.548);
 }
 
 
@@ -229,14 +380,49 @@ input[type=submit] {
   border-radius: 5px;
   border: 1px solid rgba(128, 128, 128, 0.637);
   margin-bottom: 50px;
-
 }
 
 .under-header{
   width: 95%;
   max-width: 65rem;
   margin: auto;
-  margin-top: 100px;
+  margin-top: 70px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.salary-specific-left{
+  width: 30%;
+  display: block;
+  float: right;
+}
+
+.specific-title{
+  width: 100%;
+  padding-bottom: 30px;
+  float:inline-end;
+  float: left;
+  text-align: center;
+}
+
+.salary-specific-right{
+  width: 70%;
+  float: left;
+  padding-left: 2%;
+  padding-right: 2%;
+  display: block;
+  align-items: flex-start;
+  align-content: flex-start;
+  border-right: 0.5px solid lightgray;
+  margin-bottom: 50px;
+
+}
+
+.under-header-1{
+  width: 80%;
+  max-width: 65rem;
+  margin: auto;
+  margin-top: 200px;
 }
 
 .see-more{
@@ -275,13 +461,21 @@ input[type=submit] {
 }
 
 .dropdown-container{
-  width: 30%;
-  margin-left: 2.5%;
+  width: 32%;
+  margin-left: 1%;
+  float: left;
+}
+
+.dropdown-container-specific{
+  width: 48%;
+  margin-left: 1%;
+  float: left;
 }
 
 .dropdown-label-jobs{
   font-weight: bold;
   margin-bottom: 10px;
+  width: 100%;
 
   color: gray;
 }
@@ -290,8 +484,7 @@ input[type=submit] {
   align-items:baseline;
   align-content: flex-end;
   width: 100%;
-  margin-bottom: 30px;
-  padding-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .filter-text{
@@ -358,6 +551,51 @@ input[type=submit] {
   -webkit-box-shadow:0px 5px 5px lightgray;
   -moz-box-shadow:0px 5px 5px lightgray;
   box-shadow:0px 5px 5px lightgray;
+  padding-bottom: 10px;
+  /* border-bottom: 2px solid rgb(56, 56, 216); */
+}
+
+.salary-tabs-wrapper{
+  width: 100%;
+  margin-top: 0px;
+  background: transparent;
+  z-index: 0;
+  padding-bottom: 10px;
+  /* border-bottom: 2px solid rgb(56, 56, 216); */
+}
+
+.salary-tabs{
+  max-width: 85rem;
+  padding-top: 15px;
+  font-size: 0.9rem;
+  padding-bottom: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  margin: auto;
+  
+  background-color:transparent;
+  z-index: 0;
+}
+
+.salary-tab{
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  min-width: calc(100%/13.5);
+  text-align: center;
+  color: rgb(88, 88, 88);
+  background: rgba(211, 211, 211, 0.795);
+  border-radius: 2px;
+
+  margin: 0.5px;
+  margin: auto;
+  margin-bottom: 5px;
+}
+
+.salary-tab:hover{
+  cursor: pointer;
+  color: lightgray;
+  background: white;
 }
 
 
@@ -378,7 +616,7 @@ input[type=submit] {
   width: 90%;
   max-width: 85rem;
   margin: auto;
-  margin-top: 100px;
+  margin-top: 200px;
 
   width: 100%;
   
@@ -448,7 +686,6 @@ input[type=submit] {
 .links-wrapper{
   width: 50%;
   margin-left: 25%;
-  margin-top: 30px;
 }
 
 .button-support{
@@ -704,11 +941,26 @@ input[type=number] {
   color: rgba(58, 58, 58, 0.377);
   /* max-width: 85rem; */
   margin: auto;
+  margin-top: 0px;
+}
+
+.blog-post-wrapper{
+  width: 90%;
+  margin-left: 5%;
+  padding-left: 4%;
+  padding-right: 4%;
+  padding-top: 30px;
+  padding-bottom: 50px;
+  background: rgba(240, 240, 246, 0.787);
 }
 
 .summary{
   width: 100%;
-  margin-top: 50px;
+  margin-top: 0px;
+  background: transparent;
+  padding-bottom: 30px;
+  border-radius: 5px;
+
 }
 
 .additional-info{
@@ -744,8 +996,8 @@ input[type=number] {
   display: flex;
   flex-wrap: wrap;
   text-align: left;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 2px;
+  padding-bottom: 2px;
   font-size: 0.9rem;
   color: rgb(82, 82, 82);
 }
@@ -889,11 +1141,11 @@ input[type=number] {
   border-top-right-radius: 5px;
   margin-top: 30px;
   color: rgb(82, 82, 82);
-  background: rgba(134, 134, 134, 0.507);
+  background: rgba(106, 108, 212, 0.644);
 }
 
 .bottom-spacer{
-  height: 200px;
+  height: 50px;
   width: 100%;
 }
 
@@ -901,12 +1153,12 @@ input[type=number] {
   display: flex;
   flex-wrap: wrap;
   text-align: left;
-  margin-top: 50px;
+  margin-top: 0px;
   margin-bottom: 5px;
   font-size: 0.9rem;
   border-radius: 0px;
   color: rgb(82, 82, 82);
-  margin-top: 50px;
+  margin-top: 0px;
   width: 100%;
 
 }
@@ -967,7 +1219,7 @@ input[type=number] {
 
 .info-container{
   display: flex;
-  font-size: 1rem;
+  font-size: 0.9rem;
   flex-wrap: wrap;
   width: calc(25%);
   padding: 5px;
@@ -1011,6 +1263,7 @@ input[type=number] {
   font-style: italic;
   width: 100%;
   padding-left: 2.5%;
+  margin-top: 10px;
 }
 
 .reset:hover{
@@ -1054,7 +1307,7 @@ input[type=number] {
   float: left;
 }
 .enter-salary{
-  background: rgba(31, 116, 31, 0.822);
+  background: rgb(40, 41, 138);
   float: right;
   margin-right: 2.5%;
   padding: 10px;
@@ -1077,10 +1330,57 @@ input[type=number] {
 
 .title-second{
   width: 94%;
-  margin-left: 3%;
+  margin-left: 2%;
   font-size: 0.8rem;
   color: rgb(182, 182, 182);
+}
 
+.post-link{
+  width: 100%;
+  border: 1px solid rgb(230, 230, 230);
+  text-decoration: none;
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 2%;
+  padding-right: 2%;
+  padding-top: 10px;
+  height: auto;
+  padding-bottom: 20px;
+  background: white;
+  color: rgb(88, 88, 88);
+  margin-top: 50px;
+  border-radius: 5px;
+}
+
+.posts-left{
+  width: 45%;
+  margin-left: 2%;
+  float: left;
+
+}
+
+.posts-right{
+  width: 45%;
+  margin-right: 2%;
+  float: right;
+  
+}
+
+.posts-title{
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.post-link:hover{
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.posts-inner{
+  width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 5%;
 }
 
 .experience-right{
@@ -1088,7 +1388,7 @@ input[type=number] {
 }
 
 .enter-salary-1{
-  background: rgba(31, 116, 31, 0.822);
+  background: rgb(40, 41, 138);
   float: left;
   margin-left: 20px;
   margin-right: 2.5%;
@@ -1105,17 +1405,17 @@ input[type=number] {
 
 .buttons-container{
   width: 100%;
-  padding-bottom: 20px;
+  padding-bottom: 50px;
   display: flex;
   flex-wrap: wrap;
 }
 
 .enter-salary:hover{
-  background: rgb(2, 129, 2);
+  background: rgba(6, 9, 170, 0.527)
 }
 
 .enter-salary-1:hover{
-  background: rgb(2, 129, 2);
+  background: rgba(6, 9, 170, 0.527)
 
 }
 
@@ -1131,9 +1431,9 @@ input[type=number] {
 .summary-undertext{
   text-align: center;
   font-style: italic;
-  margin-bottom: 50px;
-  width: 40%;
-  margin-left: 30%;
+  margin-bottom: 10px;
+  width: 100%;
+  margin-left: 0%;
   font-size: 0.8rem;
 }
 
@@ -1364,8 +1664,6 @@ input[type=number] {
   color: gray;
   font-size: 1rem;
   padding-left: 10px;
-  
-  
 }
 
 .label{
@@ -1475,9 +1773,94 @@ input[type=submit]:hover{
   margin-right: 10px;
 }
 
+.input-filter{
+  border-radius: 3px;
+  width: 100%;
+  height: 38px;
+  border: 1px solid rgba(128, 128, 128, 0.842);
+  color: gray;
+  font-size: 1rem;
+  padding-left: 10px;
+  background: white;
+}
+
+.stats-median-left{
+  width: 40%;
+  height: 100%;
+  padding: 30px;
+  align-content: center;
+  align-items: center;
+  text-align: left;
+
+}
+
+.stats-percentile-summary{
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  padding-bottom: 20px;
+  font-size: 1rem;
+  color: rgb(88, 88, 88);
+  align-content: center;
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  text-align: left;
+}
+
+.stats-median-right{
+  width: 100%;
+  height: 100%;
+  padding: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  border-left: 0.5px solid rgb(150, 150, 150);
+  background: white;
+  border-radius: 5px;
+}
+
 @media screen and (max-width: 900px){
   .content{
     width: 100%;
+  }
+
+  h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: gray;
+  margin-bottom: 0px;
+
+  }
+
+  .salary-specific-left{
+    width: 100%;
+  }
+
+  .salary-specific-right{
+    width: 100%;
+  }
+
+
+  .percentile-wrapper{
+    width: 100%;
+  }
+
+  .stats-median-left{
+    width: 100%;
+    text-align: center;
+  }
+
+  .stats-median-right{
+    width: 100%;
+    border-top: 0.5px solid rgb(150, 150, 150);
+    border-left: none;
+    text-align: center;
+  }
+
+  .stats-left{
+    width: 100%;
+    margin: 0%;
+    background: white;
   }
 
   .newsletter-input-inner-page{
@@ -1510,19 +1893,16 @@ input[type=submit]:hover{
     margin-top: 10px;
     padding: 0px;
     padding: 20px;
-    border: none;
-    background: rgb(235, 235, 235);
+    
   }
 
   .stats-max{
-    border: none;
     width: 100%;
     text-align: center;
     margin: 0px;
     margin-top: 10px;
     padding: 0px;
     padding: 20px;
-    background: rgb(235, 235, 235);
   }
 
   .dropdown-container{
@@ -1530,6 +1910,12 @@ input[type=submit]:hover{
     margin: 0px;
     margin-bottom: 10px;
     padding: 0px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .select-dropdown-jobs{
+    width: 100%;
   }
 
   .salary-info-2{
@@ -1605,6 +1991,12 @@ input[type=submit]:hover{
 
   }
 
+  .under-header{
+    margin-top: 100px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
 
 
 
@@ -1616,6 +2008,21 @@ input[type=submit]:hover{
     
   }
 
+  .dropdown-container-specific{
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+  .ninety-percent-wrapper{
+    width: 100%;
+    margin: 0%;
+  }
+
+  .ten-percent-wrapper{
+    width: 100%;
+    margin: 0%;
+  }
+
   .header-wrapper{
     width: 100%
   }
@@ -1623,14 +2030,59 @@ input[type=submit]:hover{
   .tabs{
     width: 100%;
     margin-top: 10px;
+    align-items: center;
   }
 
   .logo-wrap{
     margin-left: 40%;
   }
 
+    .summary{
+    margin-top: 10px;
+  }
+
+  .posts-inner{
+    margin-top: 50px
+  }
+
+  .blog-post-wrapper{
+    margin-top: 100px;
+  }
+
+  .posts-left{
+    margin-top: 50px
+  }
+
+  .posts-right{
+    margin-top: 50px
+  }
+
+
   .under-header{
-    margin-top: 150px;
+    margin-top: 100px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .salary-tabs-wrapper{
+    margin-left: 0%;
+    margin-right:0%;
+    margin-top: 20px;
+  }
+
+  .salary-tabs{
+    width: 100%;
+    margin-left: 0%;
+    margin-right:0%;
+    margin-top: 20px;
+    align-items: center;
+    align-content: center;
+  }
+
+  .salary-tab{
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-top: 5px;
   }
 
   .form{
@@ -1649,10 +2101,24 @@ input[type=submit]:hover{
   }
 
   .tab{
-    width: 33%;
+    width: 22%;
     margin-left: 0%;
     margin-right: 0%;
+    text-align: center;
   }
+
+  .tab-name{
+    width: 40%;
+    margin-left: 0%;
+    margin-right: 0%;
+    text-align: center;
+  }
+
+  .tab-exit{
+    width: 5%;
+    margin-left: 0%;
+    margin-right: 0%;
+    text-align: center;  }
 
 }
 

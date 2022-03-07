@@ -16,6 +16,7 @@ import Footer from '../components/footer'
 import Select from 'react-select'
 import {Link} from 'react-router-dom'
 import SalaryForm from './salaryform'
+import { getAuth, sendSignInLinkToEmail } from "firebase/auth";
 // import {AuthenticatedUserContext} from './AuthenticatedUserProvider'
 import {doc, setDoc} from 'firebase/firestore'
 const auth = Firebase.auth();
@@ -56,18 +57,44 @@ function Signin() {
     useEffect(async () => {
     }, [])
 
+    const actionCodeSettings = {
+    // URL you want to redirect back to. The domain (www.example.com) for this
+    // URL must be in the authorized domains list in the Firebase Console.
+    url: 'https://payscale.finance/#/sign-in-verification',
+    // This must be true.
+    handleCodeInApp: true,
+    };
+
 
     const handleSubmit = async (e) =>{
         e.preventDefault();
         setSubmitClicked(true);
         setLoading(true);
         try {
-            if (email !== '' && password !== '') {
-                await auth.signInWithEmailAndPassword(email, password);
-                setSubmitted(true);
-                console.log('HELLO');
+            if (email !== '') {
+                // await auth.sendSignInLinkToEmail(email, actionCodeSettings);
+
+                auth.sendSignInLinkToEmail(email, actionCodeSettings)
+                .then(() => {
+                    // The link was successfully sent. Inform the user.
+                    // Save the email locally so you don't need to ask the user for it again
+                    // if they open the link on the same device.
+                    window.localStorage.setItem('emailForSignIn', email);
+                    // ...
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    setLoginError("Sorry, the login link could not be sent to this email.");
+                });
+                
             }
+                setSubmitted(true);
+            
+                
+            
         } catch (error) {
+            console.log(error);
             if (error.message==="The email address is badly formatted."){
                 setLoginError("The email address you've entered is invalid.");
             } else{
@@ -93,10 +120,12 @@ function Signin() {
                 </Link>
             </div>
         </div>
-        {!authContext.userInfo === true ?
             <form autocomplete="off" onSubmit={(e)=>{handleSubmit(e)}} className = 'form'>
             <div className='label' style={{fontWeight: 'bold', fontSize: '1.5rem', width: '100%', textAlign: 'center', marginBottom: '30px'}}>Sign in</div>
            
+           <div style={{width: '100%', textAlign: 'center', fontSize: '0.9rem'}}>
+                Please sign in to view detailed salary information. This helps change the overall culture around salary transparency and helps individuals make more informed career decisions.
+            </div> <br/><br/>
 
 
             {submitClicked && email === '' ? 
@@ -112,7 +141,7 @@ function Signin() {
             </div> }
             
             <br/>
-            {submitClicked && password === '' ? 
+            {/* {submitClicked && password === '' ? 
             <div className="autocomplete" >
                 <label for='company' className='label'>Enter Password</label><br/>
                 <input id="company" style={{border: '0.5px solid red'}} className = 'input' type="password" name="myCompany" value = {password} onChange={(e)=>{setPassword(e.target.value)}} placeholder="Enter password"/>
@@ -122,54 +151,14 @@ function Signin() {
                 <label for='company' className='label'>Enter Password</label><br/>
                 <input id="company" className = 'input' type="password" name="myCompany" value = {password} onChange={(e)=>{setPassword(e.target.value)}} placeholder="Enter password"/>
                 <br/>
-            </div> }
+            </div> } */}
             
             
             <br/>
-            <input value = {loading ? 'Loading...' : 'Submit'} type="submit"/>
+            <input disabled = {loading} value = {loading ? 'Loading...' : !submitted ? 'Sign In' : 'Email Sent'} type="submit" />
             <div style={{width: '100%', marginTop: '20px', textAlign: 'center', color: 'rgba(255, 0, 0, 0.514)'}}>{signupError}</div>
             <div className = 'error'>{loginError}</div>
-            </form> : authContext.userData.contribution ? 
-            <form className = 'form'>
-            <div className = 'general-info'>
-                <div className='thank-you'>Welcome back, {authContext.userData.firstname}!</div>
-                <div className = 'thank-you-inner'>
-                    
-                    <br/> 
-                        {feedbackSent ? <div>Thank you! We highly appreciate your feedback and will evaluate it closely when deploying the next version of this website. </div> : <div>
-                        
-                        <div>We will continue to add more data and analysis to help you gain more career insights! Please feel free to let us know any comments/feedback/improvements you may have in the meantime! </div>                              
-                        <br/><br/>
-                        <textarea className = 'feedback' onChange={(e)=>{e.preventDefault(); setFeedback(e.target.value)}}/>
-                        
-                        <div className = 'feedback-button' onClick={()=>sendFeedback()}> {feedbackloading ?  'Loading...': 'Send Feedback' }</div>
-                        </div>}
-                    <br/>
-                    
-                    <Link to='/salaries' className = 'back-2'>Go to salaries ></Link>
-                </div>
-            </div> </form>: 
-            <form className = 'form'>
-            <div className = 'general-info'>
-                <div className='thank-you'>Welcome back, {authContext.userData.firstname}!</div>
-                <div className = 'thank-you-inner'>
-                    <div style={{color: 'rgb(151, 151, 151)'}}>Please consider filling out one of the forms below to gain access to all of the website's features. They're quick to complete, and your input will help others make better career decisions and increase salary transparency for the finance community. </div>
-                    <div className = 'buttons-container-2'>
-                        <br/>
-                        <Link to='/salary-form' className = 'form-link-login'>+ Add Compensation</Link> <br/><br/>
-                        <Link to='/titlesform' className = 'form-link-login'>+ Add Team Structure and Promotion Timeline</Link> <br/><br/>
-                        <Link to='/ops-form' className = 'form-link-login'>+ Add Break In/Exit Op</Link> <br/><br/>
-                    </div> 
-                    <br/>
-                    <Link to='/salaries' className = 'back-2'>Go to salaries ></Link>
-                    
-                </div>
-                    </div> </form>
-
-        
-        
-        
-        }
+            </form> 
 
 
             <div className = 'bottom-spacer'></div>

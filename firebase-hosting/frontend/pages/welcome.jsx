@@ -64,7 +64,6 @@ function Welcome(){
 
             <div className = 'welcome-inner'>
                 <div className = 'welcome-title'>Payscale <GiReceiveMoney/></div>
-                <div className = 'welcome-subtitle'>Employers know your value, and it's time you do too.</div> <br/> <br/>
             {subscribeError ? 
             <div className = 'newsletter-header-input-page' style={{border: '1px solid red'}}>
             <input type="email" value = {email} placeholder = 'Enter email to stay up to date with the compensation market' onChange = {(e)=>{setEmail(e.target.value)}} className = 'newsletter-input-inner-page'/>
@@ -77,13 +76,13 @@ function Welcome(){
 
 
                 <div className = 'links-wrapper'>
-                <Link to='/salaries' className = 'button-right' onClick={()=>authContext.setCareerFilter('Quantitative Research')}>Quantitative Research</Link>
+                {/* <Link to='/salaries' className = 'button-right' onClick={()=>authContext.setCareerFilter('Quantitative Research')}>Quantitative Research</Link>
                 <Link to='/salaries' className = 'button-right' onClick={()=>authContext.setCareerFilter('Investment Banking')}>Investment Banking</Link>
                 <Link to='/salaries' className = 'button-right' onClick={()=>authContext.setCareerFilter('Quant Trading')}>Quantitative Trading</Link>
                 <Link to='/salaries' className = 'button-right' onClick={()=>authContext.setCareerFilter('Corporate Banking')}>Corporate Banking</Link>
                 <Link to='/salaries' className = 'button-right' onClick={()=>authContext.setCareerFilter('Accounting')}>Accounting</Link>
-                <Link to='/salaries' className = 'button-right' onClick={()=>authContext.setCareerFilter('FP&A')}>FP&A</Link>
-                <Link to='/salaries' className = 'button-view' onClick={()=>authContext.setCareerFilter(null)}>View all</Link>
+                <Link to='/salaries' className = 'button-right' onClick={()=>authContext.setCareerFilter('FP&A')}>FP&A</Link> */}
+                <Link to='/salaries' className = 'button-view' onClick={()=>authContext.setCareerFilter(null)}>View compensation and salary data ></Link>
 
                 </div>
               

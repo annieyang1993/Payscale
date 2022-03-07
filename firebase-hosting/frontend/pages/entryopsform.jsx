@@ -51,7 +51,7 @@ function EntryForm() {
 
     const [generalError, setGeneralError] = useState(null);
 
-    const [info, setInfo] = useState({uid: authContext.uid, created_on: newDate()})
+    const [info, setInfo] = useState({uid: authContext.uid, created_on: new Date()})
 
     const [additionalComments, setAdditionalComments] = useState(null);
 

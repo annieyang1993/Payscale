@@ -12,6 +12,7 @@ import {AuthenticatedUserContext} from '../pages/AuthenticatedUserProvider'
 import {AiOutlineLogout} from 'react-icons/ai'
 import {AiOutlineIdcard} from 'react-icons/ai'
 import {RiLogoutCircleRLine} from 'react-icons/ri'
+
 const auth = Firebase.auth();
 
 export default function Header() {
@@ -45,13 +46,19 @@ export default function Header() {
 
         }
     }
+
+    useEffect(()=>{
+        
+    }, [])
     return (
       <div className = 'header-wrapper'>
         <div className = "header">
+            {console.log(window.location.href.split("/"))}
 
             <Link  to="/" className = 'logo-wrap' >
                 Payscale <GiReceiveMoney/>
             </Link>
+        
         
 
 
@@ -94,16 +101,37 @@ export default function Header() {
                 {/* <div className = "tab" style={{marginTop: '-5px', fontSize: '0.8rem'}}>
                         <Link to="/support-payscale" className = "tab-content" >Support <br/> Payscale <GiReceiveMoney/></Link>              
                 </div> */}
+
+                {authContext.userInfo && authContext.uid === 'TBkwqkVfyyWuLkU7SOH4lmQqyTj1' ? 
+                <div className = "tab">
+                        <Link to="/upload" className = "tab-content">Post </Link>              
+                </div>
+                : null}
+
+                {/* {authContext.userInfo && authContext.uid === 'TBkwqkVfyyWuLkU7SOH4lmQqyTj1' ? 
+                <div className = "tab">
+                        <Link to="/poststest" className = "tab-content">Blog test </Link>              
+                </div>
+                : null} */}
+                
+                <div className = "tab">
+                        <Link to="/posts" className = "tab-content">Blog </Link>              
+                </div>
+
                 <div className = "tab">
                         <Link to="/salaries" className = "tab-content">Salaries </Link>              
                 </div>
 
+                {authContext.userInfo ? <div className = 'tab-name'><div className = 'tab-content'>Welcome, {authContext.userData.firstname}!</div></div> : 
+                        null
+                }
 
-                {authContext.userInfo ? <div className = 'tab'> <div className = 'tab-content'>Welcome, {authContext.userData.firstname}!</div></div> : <div className = "tab" >
+
+                {authContext.userInfo ? null : <div className = "tab" >
                         <Link to="/sign-in" className = "tab-content" > Sign in</Link>  
                 </div>}
 
-                {authContext.userInfo ? <div className = 'tab' onClick={()=>{auth.signOut(); authContext.setUserData({})}}> <RiLogoutCircleRLine className = 'tab-content'/></div> : null}
+                {authContext.userInfo ? <div className = 'tab-exit' onClick={()=>{auth.signOut(); authContext.setUserData({})}}> <RiLogoutCircleRLine className = 'tab-content'/></div> : null}
 
                 
 

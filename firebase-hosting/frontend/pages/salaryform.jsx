@@ -182,6 +182,7 @@ function SalaryPost() {
         if (companyName === null || companyName === '' || careerType === null || careerType === ''
         || title === null || title === '' || group === null || group === '' || experience === null || experience === ''
         || experienceAtCompany === null || experienceAtCompany === '' || location === null || location === '' 
+        || academic === null || academic === ''
         ){
             setGeneralError('* Please fill-out all highlighted fields.')
             submit = false;
@@ -250,6 +251,8 @@ function SalaryPost() {
                 uid: authContext.uid,
                 live: false
             })
+
+            
             if (authContext.companies.includes(companyName)){
                 await Firebase.firestore().collection('comps').doc('comps').collection(companyName).doc().set({
                     company_name: companyName,
@@ -274,7 +277,9 @@ function SalaryPost() {
                     created_on: new Date(),
                     live: false
                 })
+                
                 setSubmitted(true);
+                
             } else{
                 await Firebase.firestore().collection('comps').doc('comps').collection('Other').doc().set({
                     company_name: companyName,
@@ -320,7 +325,7 @@ function SalaryPost() {
 
     var genders=['Male', 'Female', 'Non-binary']
     var races=['Hispanic/Latino', 'American Indian or Alaska Native', 'Asian', 'Black or African American', 'Native Hawaiian or Other Pacific Islander', 'White', 'Other']
-    var academics = ['High school or equivalent', 'Technical or occupational certificate', 'Associate Degree', "Bachelor's degree", "Master's degree", 'Doctorate (PhD)']
+    var academics = ['High school or equivalent', 'Technical or occupational certificate', 'Associate Degree', "Bachelor's degree", 'MBA', "Master's degree", 'Doctorate (PhD)']
     var years = ['2017', '2018', '2019', '2020', '2021', 'Present']
 
     return (
@@ -337,7 +342,7 @@ function SalaryPost() {
         {submitted === false ? 
             <form autocomplete="off" onSubmit={(e)=>{handleSubmit(e)}} className = 'form'>
             <div className='title'>Add Compensation</div>
-
+            <div className='title-second'>Please fill out this form to view detailed salary and compensation data. It takes 45 seconds to complete and really helps to increase salary transparency within finance. </div>
             <div className='subtitle'>General</div>
             <div className = 'general-info'>
             <div class="autocomplete" >
@@ -439,6 +444,27 @@ function SalaryPost() {
                 <input id="location" className = 'input' type="text" value = {location} onChange={(e)=>{setLocation(e.target.value)}} name="myTitle" placeholder="Location (City, State/Province)"/>}<br/>
             </div>
 
+             <div class="autocomplete" >
+                <label for='title'>Academic Information</label><br/>
+                {submitClicked===true && (academic === null || academic ==='')  ? 
+                <select id="academic" style={{border: '0.5px solid red'}} onChange={(e)=>{if (e.target.value === 'Please select your highest academic level achieved') {setAcademic(null)} else{setAcademic(e.target.value)}}} className = 'input' name="myAcademic">
+                    <option value={null} selected className = 'option-select'>Please select your highest academic level achieved</option>
+                    {academics.map((academic, i)=>{
+                        return(
+                            <option value={academic}  key={i}>{academic}</option>
+                        )
+                    })}
+                </select>:
+                <select id="academic" onChange={(e)=>{if (e.target.value === 'Please select your highest academic level achieved') {setAcademic(null)} else{setAcademic(e.target.value)}}} className = 'input' name="myAcademic">
+                    <option value={null} selected className = 'option-select'>Please select your highest academic level achieved</option>
+                    {academics.map((academic, i)=>{
+                        return(
+                            <option value={academic}  key={i}>{academic}</option>
+                        )
+                    })}
+                </select>}<br/>
+            </div>
+
              {/* <div class="autocomplete" >
                 <label for='year' className='label'>Valid Year</label><br/>
                 {submitClicked===true && (year === null || year==='')  ? 
@@ -465,7 +491,8 @@ function SalaryPost() {
             </div>
 
             <div className='subtitle'>Compensation</div>
-            <div className='subtitle-1'>Please ensure numbers are in USD</div>
+            <div className='title-second'>Please ensure numbers are in the currency native to the job location.</div>
+            {/* March 3, 2022, 10:18pm */}
             <div className = 'general-info'>
 
             <div class="autocomplete" >
@@ -517,17 +544,7 @@ function SalaryPost() {
                 </select><br/>
 
             </div>
-            <div class="autocomplete" >
-                <label for='title'>Academic Information</label><br/>
-                <select id="academic" onChange={(e)=>{if (e.target.value === 'Please select your highest academic level achieved') {setAcademic(null)} else{setAcademic(e.target.value)}}} className = 'input' name="myAcademic">
-                    <option value={null} selected className = 'option-select'>Please select your highest academic level achieved</option>
-                    {academics.map((academic, i)=>{
-                        return(
-                            <option value={academic}  key={i}>{academic}</option>
-                        )
-                    })}
-                </select><br/>
-            </div>
+           
             <div class="autocomplete" >
                 <label for='title'>Other Details</label><br/>
                 <input id="title" type="text"  className = 'input' onChange={(e)=>{setOtherInfo(e.target.value)}} name="myTitle" placeholder="Please enter any other information you'd like to include."/><br/>
@@ -545,7 +562,7 @@ function SalaryPost() {
                     <div>Your submission helps increase salary transparency and helps others make better career decisions. </div>
                     <br/><br/><br/>
                     
-                    <Link to='/salaries' className = 'back'>Back to salaries ></Link>
+                    <Link to='/salaries' className = 'back-2'>See compensation and salary insights ></Link>
                 </div>
             </div>
             </form>}

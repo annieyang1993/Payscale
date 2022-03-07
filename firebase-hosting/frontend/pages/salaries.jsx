@@ -14,9 +14,12 @@ import Resizer from 'react-image-file-resizer'
 import ReactMarkdown from 'react-markdown';
 import Footer from '../components/footer'
 import Header from '../components/header'
+import SalaryNav from '../components/salarynav'
+
 import Select from 'react-select'
 import {Link} from 'react-router-dom'
 import Entry from './entryopsform'
+import {BsChevronCompactDown} from 'react-icons/bs'
 
 
 import {BiSupport} from 'react-icons/bi'
@@ -30,17 +33,57 @@ function Stats({companyName, title, division, yoe}){
     const [total, setTotal] = useState(0);
     const [count, setCount] = useState(0);
     const [loading, setLoading] = useState(true);
+    const [tenPercentExpand, setTenPercentExpand] = useState(false);
+    const [medianExpand, setMedianExpand] = useState(false);
+    const [ninetyPercentExpand, setNinetyPercentExpand] = useState(false);
     
     var minTemp = 0;
     var maxTemp = 0;
     var totalTemp = 0;
     var countTemp = 0;
 
+    var salaries = [];
+    var allInfo = [];
+
+    const sort = (arr1, arr2) =>{
+      if (arr1.length === 1 || arr1.length === 0){
+        return [arr1, arr2];
+      } else{
+        var el = arr1[0];
+        var left = [];
+        var right = [];
+        var left1 = [];
+        var right1 = [];
+
+        arr1.map((ele, i)=>{
+          if (i!==0){
+            if (ele<=el){
+              left.push(ele);
+              left1.push(arr2[i]);
+            
+            } else{
+              right.push(ele);
+              right1.push(arr2[i]);
+            
+            }
+          }
+          
+        })
+
+        var leftsorted = sort(left, left1);
+        var rightsorted = sort(right, right1);
+
+
+        return [leftsorted[0].concat(el).concat(rightsorted[0]), leftsorted[1].concat(arr2[0]).concat(rightsorted[1])];
+      }
+    }
+
     function currencyFormat(num) {
         return '$' + String(num).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
 
      useEffect(async () => {
+         
         // autocomplete(document.getElementById("company1"), authContext.companies, setCompanyName)
         // document.addEventListener("wheel", function(event){
         //     if(document.activeElement.type === "number"){
@@ -55,9 +98,7 @@ function Stats({companyName, title, division, yoe}){
         // })
     }, [])
 
-    return (
-        <div className = 'summary'>
-            {authContext.salariesArr.map((salary, j)=>{
+    authContext.salariesArr.map((salary, j)=>{
             var included = true
             if (authContext.salaries[salary].live === false){
                 included = false;
@@ -75,10 +116,10 @@ function Stats({companyName, title, division, yoe}){
             } else if (authContext.salaries[salary].title.trim().toLowerCase() === 'Intern'.toLowerCase()){
                 included = false;
             }
-            
-            
 
             if (included === true && authContext.salaries[salary].title.toLowerCase()!=='Intern'){
+                salaries.push(Number(authContext.salaries[salary]['annual_compensation']));
+                allInfo.push(authContext.salaries[salary]);
                 if (minTemp===0){
                     minTemp = Number(authContext.salaries[salary]['salary'])+Number(authContext.salaries[salary]['bonus']);
                 } if (Number(authContext.salaries[salary].salary)+Number(authContext.salaries[salary].bonus) < minTemp){
@@ -90,13 +131,23 @@ function Stats({companyName, title, division, yoe}){
                 countTemp += 1;
                 totalTemp += Number(authContext.salaries[salary].salary)+Number(authContext.salaries[salary].bonus);
             } 
+
+           
             
 
-        })}
+        })
 
-        {authContext.userInfo && authContext.userData.contribution? 
+        var sorted = sort(salaries, allInfo);
+        console.log(sorted);
+        var medianPackage = sorted[1][Math.floor(sorted[0].length/2)]
+        var ninety = sorted[1][Math.floor(sorted[0].length*0.9)]
+        var ten = sorted[1][Math.floor(sorted[0].length*0.1)]
+
+    return (
+        <div className = 'summary'>
+            
         <div className = 'stats' onClick={()=>{}}>
-            <div className = 'stats-title'>Summary</div>
+            {/* <div className = 'stats-title'>Summary</div> */}
 
             {/* <div className = 'stats-min'>
                 <div>
@@ -107,61 +158,317 @@ function Stats({companyName, title, division, yoe}){
                 </div>
                   
             </div> */}
+            
 
-            <div className = 'stats-avg'>
-                <div>
-                    Avg
+            <div className = 'percentile-wrapper'>
+
+            <h2 >10th Percentile Compensation</h2>
+
+            <div className = 'ninety-percent' onClick={()=>{ tenPercentExpand ? setTenPercentExpand(false) : setTenPercentExpand(true)}}>
+                <div className = 'stats-percentile-summary' style={{paddingBottom: '10px', borderRadius: '5px'}}>
+                    {ten === undefined ? <div>N/A</div> : 
+
+                    <div style={{fontSize: '1rem', }}>
+                    <div className = 'undertext-title' style={{width: '100%', color: 'rgb(150, 150, 150)', marginLeft: '0px', fontSize: '0.9rem'}}>Annual Compensation</div>
+
+                    {currencyFormat(Number(ten.annual_compensation).toFixed(0))} 
+                    <div className = 'undertext-title' style={{width: '100%', color: 'rgb(150, 150, 150)',fontSize: '0.9rem', marginLeft: '0px'}}>{currencyFormat(Number(ten.salary).toFixed(0))} base | {currencyFormat(Number(ten.bonus).toFixed(0))} bonus</div>
+                    
+                    {Number(ten.signing_bonus) === 0 ? 
+                    
+                    <div style={{marginTop: '10px', fontSize: '1rem', color: 'transparent'}}>
+                        <div className = 'undertext-title' style={{width: '100%', color: 'transparent', marginLeft: '0px', fontSize: '0.9rem'}}> Signing Bonus </div>
+                         + {currencyFormat(Number(medianPackage.signing_bonus).toFixed(0))}
+                    </div> :
+                    <div style={{marginTop: '10px', fontSize: '1rem'}}>
+                        <div className = 'undertext-title' style={{width: '100%', color: 'rgb(150, 150, 150)', marginLeft: '0px', fontSize: '0.9rem'}}>Signing Bonus</div>
+                        + {currencyFormat(Number(ten.signing_bonus).toFixed(0))}
+                    </div>}
+                    </div>}
+
+                    <div className = 'undertext-title' style={{width: '100%', color: 'gray', marginLeft: '0px', marginTop: '0px', textAlign: 'center', fontWeight: 'bold', fontSize: '1.1rem'}}><BsChevronCompactDown/></div>      
+                    
                 </div>
-                <div>
-                    {countTemp === 0 ? 'N/A' : currencyFormat((totalTemp/countTemp).toFixed(0))}
+
+                {tenPercentExpand ? 
+
+                <div className = 'stats-percentile-summary' style={{paddingTop: '30px', background: 'rgba(255, 255, 255, 0.557)', borderTop: '0.5px solid rgb(150, 150, 150)', paddingBottom: '30px', color: 'rgb(80, 80, 80)'}}>
+                    <div style={{textAlign: 'left', fontSize: '0.8rem', display: 'flex', flexWrap: 'wrap'}}>
+                    <div style={{marginRight: '10px', marginBottom: '10px'}}>
+
+                    <div className = 'undertext-title' style={{color: 'rgb(90, 90, 90)', marginLeft: '0px'}}>Company Name</div>
+
+                    {ten.company_name}
+                    </div>
+
+                    <div style={{marginRight: '10px', marginBottom: '10px'}}>
+
+                    <div className = 'undertext-title' style={{color: 'rgb(90, 90, 90)', marginLeft: '0px'}}>Career</div>
+                    
+                    {ten.career_type}
+                    </div>
+                    <div style={{marginRight: '10px', marginBottom: '10px'}}>
+
+                    <div className = 'undertext-title' style={{color: 'rgb(90, 90, 90)', marginLeft: '0px'}}>Group</div>
+                    
+                    {ten.group}
+                    </div>
+
+                    <div style={{marginRight: '10px', marginBottom: '10px'}}>
+                    <div className = 'undertext-title' style={{color: 'rgb(90, 90, 90)', fontWeight: 'normal', marginLeft: '0px'}}>Title</div>
+
+                    {ten.title}
+                    </div>
+
+                    <div style={{marginRight: '10px', marginBottom: '10px'}}>
+
+                    <div className = 'undertext-title' style={{color: 'rgb(90, 90, 90)',  fontWeight: 'normal', marginLeft: '0px'}}>YaC/YOE</div>
+                    
+                    {ten.experience_company}/{ten.experience_total}
+                    </div>
+                    <div style={{marginRight: '10px', marginBottom: '10px'}}>
+
+                    <div className = 'undertext-title' style={{color: 'rgb(90, 90, 90)',  fontWeight: 'normal', marginLeft: '0px'}}>Location</div>
+                    
+                    {ten.location}
+                    </div>
+                    </div>
+
+                    <div style={{width: '100%', height: '100%', padding: '2%', fontSize: '0.8rem', paddingTop: '30px', borderTop: '0.5px solid rgb(150, 150, 150)', display: 'flex', flexWrap: 'wrap', textAlign: 'left'}}>
+                    {ten.academic_information === null ? null :
+                        <div style={{marginRight: '10px', marginBottom: '10px'}}> 
+                        <div className = 'undertext-title' style={{width: '100%', color: 'rgb(90, 90, 90)', fontWeight: 'normal', marginLeft: '0px'}}>Academics</div>
+                        {ten.academic_information}</div>}
+                    {ten.gender === null ? null :
+                      <div style={{marginRight: '10px', marginBottom: '10px'}}> 
+                        <div className = 'undertext-title' style={{width: '100%', color: 'rgb(90, 90, 90)', fontWeight: 'normal', marginLeft: '0px'}}>Gender</div>
+                        {ten.gender}</div>}
+                    {ten.race === null ? null :
+                      <div  style={{marginRight: '10px', marginBottom: '10px'}}> 
+                        <div className = 'undertext-title' style={{width: '100%', color: 'rgb(90, 90, 90)', fontWeight: 'normal', marginLeft: '0px'}}>Race</div>
+                        {ten.race}</div>}
+                      <div  style={{marginRight: '10px', marginBottom: '10px'}}> 
+                        <div className = 'undertext-title' style={{width: '100%', color: 'rgb(90, 90, 90)', fontWeight: 'normal', marginLeft: '0px'}}>Date of Entry</div>
+                        {new Date(ten.created_on.seconds*1000).toLocaleDateString()}</div>
+                    
+
                 </div>
+                </div> : null}
+            </div>
             </div>
 
-            <div className = 'stats-max'>
-                <div>
-                    Max
-                </div>
-                <div>
-                    {countTemp === 0 ? 'N/A' : currencyFormat(maxTemp)}       
-                </div>
-            </div>
+            <div className = 'percentile-wrapper'>
 
-        </div> :
-        <Link to = '/sign-up' className = 'stats-blur' onClick={()=>{}}>
-            <div className = 'stats-title'>Summary</div>
+            <h2 >Median Compensation Package</h2>
 
-            {/* <div className = 'stats-min'>
-                <div>
-                    Min
+            <div className = 'ninety-percent' onClick={()=>{ medianExpand ? setMedianExpand(false) : setMedianExpand(true)}}>
+                <div className = 'stats-percentile-summary' style={{paddingBottom: '10px', borderRadius: '5px'}}>
+                    {medianPackage === undefined ? <div>N/A</div> : 
+
+                    <div style={{fontSize: '1rem', }}>
+                    <div className = 'undertext-title' style={{width: '100%', color: 'rgb(150, 150, 150)', marginLeft: '0px', fontSize: '0.9rem'}}>Annual Compensation</div>
+
+                    {currencyFormat(Number(medianPackage.annual_compensation).toFixed(0))} 
+                    <div className = 'undertext-title' style={{width: '100%', color: 'rgb(150, 150, 150)',fontSize: '0.9rem', marginLeft: '0px'}}>{currencyFormat(Number(medianPackage.salary).toFixed(0))} base | {currencyFormat(Number(medianPackage.bonus).toFixed(0))} bonus</div>
+                    
+                    {Number(medianPackage.signing_bonus) === 0 ? 
+                    
+                    <div style={{marginTop: '10px', fontSize: '1rem', color: 'transparent'}}>
+                        <div className = 'undertext-title' style={{width: '100%', color: 'transparent', marginLeft: '0px', fontSize: '0.9rem'}}> Signing Bonus </div>
+                         + {currencyFormat(Number(medianPackage.signing_bonus).toFixed(0))}
+                    </div> :
+                    <div style={{marginTop: '10px', fontSize: '1rem'}}>
+                        <div className = 'undertext-title' style={{width: '100%', color: 'rgb(150, 150, 150)', marginLeft: '0px', fontSize: '0.9rem'}}>Signing Bonus</div>
+                        + {currencyFormat(Number(medianPackage.signing_bonus).toFixed(0))}
+                    </div>}
+                    </div>}
+
+                   <div className = 'undertext-title' style={{width: '100%', color: 'gray', marginLeft: '0px', marginTop: '0px', textAlign: 'center', fontWeight: 'bold', fontSize: '1.1rem'}}><BsChevronCompactDown/></div>        
+
+                    
                 </div>
-                <div>
-                    {countTemp === 0 ? 'N/A' : currencyFormat(minTemp)}       
-                </div>
+
+                {medianExpand ? 
+
+                <div className = 'stats-percentile-summary' style={{paddingTop: '30px', background: 'rgba(255, 255, 255, 0.557)', borderTop: '0.5px solid rgb(150, 150, 150)', color: 'rgb(80, 80, 80)'}}>
+                    <div style={{textAlign: 'left', fontSize: '0.8rem', display: 'flex', flexWrap: 'wrap'}}>
+                    <div style={{marginRight: '10px', marginBottom: '10px'}}>
+
+                    <div className = 'undertext-title' style={{color: 'rgb(90, 90, 90)', marginLeft: '0px'}}>Company Name</div>
+
+                    {medianPackage.company_name}
+                    </div>
+
+                    <div style={{marginRight: '10px', marginBottom: '10px'}}>
+
+                    <div className = 'undertext-title' style={{color: 'rgb(90, 90, 90)', marginLeft: '0px'}}>Career</div>
+                    
+                    {medianPackage.career_type}
+                    </div>
+                    <div style={{marginRight: '10px', marginBottom: '10px'}}>
+
+                    <div className = 'undertext-title' style={{color: 'rgb(90, 90, 90)', marginLeft: '0px'}}>Group</div>
+                    
+                    {medianPackage.group}
+                    </div>
+
+                    <div style={{marginRight: '10px', marginBottom: '10px'}}>
+                    <div className = 'undertext-title' style={{color: 'rgb(90, 90, 90)', fontWeight: 'normal', marginLeft: '0px'}}>Title</div>
+
+                    {medianPackage.title}
+                    </div>
+
+                    <div style={{marginRight: '10px', marginBottom: '10px'}}>
+
+                    <div className = 'undertext-title' style={{color: 'rgb(90, 90, 90)',  fontWeight: 'normal', marginLeft: '0px'}}>YaC/YOE</div>
+                    
+                    {medianPackage.experience_company}/{medianPackage.experience_total}
+                    </div>
+                    <div style={{marginRight: '10px', marginBottom: '10px'}}>
+
+                    <div className = 'undertext-title' style={{color: 'rgb(90, 90, 90)',  fontWeight: 'normal', marginLeft: '0px'}}>Location</div>
+                    
+                    {medianPackage.location}
+                    </div>
+                    
+                    
                   
-            </div> */}
+                    
+                    
+                    </div>
 
-            <div className = 'stats-avg'>
-                <div>
-                    Avg
+                    <div style={{width: '100%', height: '100%', padding: '2%', fontSize: '0.8rem', paddingTop: '30px', borderTop: '0.5px solid rgb(150, 150, 150)', display: 'flex', flexWrap: 'wrap', textAlign: 'left'}}>
+                    {medianPackage.academic_information === null ? null :
+                        <div style={{marginRight: '10px', marginBottom: '10px'}}> 
+                        <div className = 'undertext-title' style={{width: '100%', color: 'rgb(90, 90, 90)', fontWeight: 'normal', marginLeft: '0px'}}>Academics</div>
+                        {medianPackage.academic_information}</div>}
+                    {medianPackage.gender === null ? null :
+                      <div style={{marginRight: '10px', marginBottom: '10px'}}> 
+                        <div className = 'undertext-title' style={{width: '100%', color: 'rgb(90, 90, 90)', fontWeight: 'normal', marginLeft: '0px'}}>Gender</div>
+                        {medianPackage.gender}</div>}
+                    {medianPackage.race === null ? null :
+                      <div  style={{marginRight: '10px', marginBottom: '10px'}}> 
+                        <div className = 'undertext-title' style={{width: '100%', color: 'rgb(90, 90, 90)', fontWeight: 'normal', marginLeft: '0px'}}>Race</div>
+                        {medianPackage.race}</div>}
+                      <div  style={{marginRight: '10px', marginBottom: '10px'}}> 
+                        <div className = 'undertext-title' style={{width: '100%', color: 'rgb(90, 90, 90)', fontWeight: 'normal', marginLeft: '0px'}}>Date of Entry</div>
+                        {new Date(medianPackage.created_on.seconds*1000).toLocaleDateString()}</div>
+                    
+
                 </div>
-                <div>
-                    {countTemp === 0 ? 'N/A' : currencyFormat((totalTemp/countTemp).toFixed(0))}
-                </div>
+                </div> : null}
+            </div>
             </div>
 
-            <div className = 'stats-max'>
-                <div>
-                    Max
+            <div className = 'percentile-wrapper' onClick={()=>{ ninetyPercentExpand ? setNinetyPercentExpand(false) : setNinetyPercentExpand(true)}}>
+
+                <h2 >90th Percentile Compensation</h2>
+
+            <div className = 'ninety-percent'>
+                <div className = 'stats-percentile-summary' style={{paddingBottom: '10px', borderRadius: '5px'}}>
+                    {ninety === undefined ? <div>N/A</div> : 
+
+                    <div style={{fontSize: '1rem', }}>
+                    <div className = 'undertext-title' style={{width: '100%', color: 'rgb(150, 150, 150)', marginLeft: '0px', fontSize: '0.9rem'}}>Annual Compensation</div>
+
+                    {currencyFormat(Number(ninety.annual_compensation).toFixed(0))} 
+                    <div className = 'undertext-title' style={{width: '100%', color: 'rgb(150, 150, 150)',fontSize: '0.9rem', marginLeft: '0px'}}>{currencyFormat(Number(ninety.salary).toFixed(0))} base | {currencyFormat(Number(ninety.bonus).toFixed(0))} bonus</div>
+                    
+                    {Number(ninety.signing_bonus) === 0 ? 
+                    
+                    <div style={{marginTop: '10px', fontSize: '1rem', color: 'transparent'}}>
+                        <div className = 'undertext-title' style={{width: '100%', color: 'transparent', marginLeft: '0px', fontSize: '0.9rem'}}> Signing Bonus </div>
+                         + {currencyFormat(Number(ninety.signing_bonus).toFixed(0))}
+                    </div> :
+                    <div style={{marginTop: '10px', fontSize: '1rem'}}>
+                        <div className = 'undertext-title' style={{width: '100%', color: 'rgb(150, 150, 150)', marginLeft: '0px', fontSize: '0.9rem'}}>Signing Bonus</div>
+                        + {currencyFormat(Number(ninety.signing_bonus).toFixed(0))}
+                    </div>}
+                    </div>}
+
+                    <div className = 'undertext-title' style={{width: '100%', color: 'gray', marginLeft: '0px', marginTop: '0px', textAlign: 'center', fontWeight: 'bold', fontSize: '1.1rem'}}><BsChevronCompactDown/></div>           </div>
+
+                {ninetyPercentExpand ? 
+                <div className = 'stats-percentile-summary' style={{paddingTop: '30px', borderTop: '0.5px solid rgb(150, 150, 150)', background: 'rgba(255, 255, 255, 0.557)', color: 'rgb(80, 80, 80)'}}>
+                    <div style={{textAlign: 'left', fontSize: '0.8rem', display: 'flex', flexWrap: 'wrap'}}>
+                    <div style={{marginRight: '10px', marginBottom: '10px'}}>
+
+                    <div className = 'undertext-title' style={{color: 'rgb(90, 90, 90)', marginLeft: '0px'}}>Company Name</div>
+
+                    {ninety.company_name}
+                    </div>
+
+                    <div style={{marginRight: '10px', marginBottom: '10px'}}>
+
+                    <div className = 'undertext-title' style={{color: 'rgb(90, 90, 90)', marginLeft: '0px'}}>Career</div>
+                    
+                    {ninety.career_type}
+                    </div>
+                    <div style={{marginRight: '10px', marginBottom: '10px'}}>
+
+                    <div className = 'undertext-title' style={{color: 'rgb(90, 90, 90)', marginLeft: '0px'}}>Group</div>
+                    
+                    {ninety.group}
+                    </div>
+
+                    <div style={{marginRight: '10px', marginBottom: '10px'}}>
+                    <div className = 'undertext-title' style={{color: 'rgb(90, 90, 90)', fontWeight: 'normal', marginLeft: '0px'}}>Title</div>
+
+                    {ninety.title}
+                    </div>
+
+                    <div style={{marginRight: '10px', marginBottom: '10px'}}>
+
+                    <div className = 'undertext-title' style={{color: 'rgb(90, 90, 90)',  fontWeight: 'normal', marginLeft: '0px'}}>YaC/YOE</div>
+                    
+                    {ninety.experience_company}/{ninety.experience_total}
+                    </div>
+                    <div style={{marginRight: '10px', marginBottom: '10px'}}>
+
+                    <div className = 'undertext-title' style={{color: 'rgb(90, 90, 90)',  fontWeight: 'normal', marginLeft: '0px'}}>Location</div>
+                    
+                    {ninety.location}
+                    </div>
+                    
+                    
+                  
+                    
+                    
+                    </div>
+
+                    <div style={{width: '100%', height: '100%', padding: '2%', fontSize: '0.8rem', paddingTop: '30px', borderTop: '0.5px solid rgb(150, 150, 150)', display: 'flex', flexWrap: 'wrap', textAlign: 'left'}}>
+                    {ninety.academic_information === null ? null :
+                        <div style={{marginRight: '10px', marginBottom: '10px'}}> 
+                        <div className = 'undertext-title' style={{width: '100%', color: 'rgb(90, 90, 90)', fontWeight: 'normal', marginLeft: '0px'}}>Academics</div>
+                        {ninety.academic_information}</div>}
+                    {ninety.gender === null ? null :
+                      <div style={{marginRight: '10px', marginBottom: '10px'}}> 
+                        <div className = 'undertext-title' style={{width: '100%', color: 'rgb(90, 90, 90)', fontWeight: 'normal', marginLeft: '0px'}}>Gender</div>
+                        {ninety.gender}</div>}
+                    {ninety.race === null ? null :
+                      <div  style={{marginRight: '10px', marginBottom: '10px'}}> 
+                        <div className = 'undertext-title' style={{width: '100%', color: 'rgb(90, 90, 90)', fontWeight: 'normal', marginLeft: '0px'}}>Race</div>
+                        {ninety.race}</div>}
+                      <div  style={{marginRight: '10px', marginBottom: '10px'}}> 
+                        <div className = 'undertext-title' style={{width: '100%', color: 'rgb(90, 90, 90)', fontWeight: 'normal', marginLeft: '0px'}}>Date of Entry</div>
+                        {new Date(ninety.created_on.seconds*1000).toLocaleDateString()}</div>
+                    
+
                 </div>
-                <div>
-                    {countTemp === 0 ? 'N/A' : currencyFormat(maxTemp)}       
-                </div>
+                </div> : null}
+            </div>
             </div>
 
-        </Link>}
-        {!authContext.userInfo ? <div  className = 'summary-undertext' style={{color: 'gray', textDecoration: 'none', textAlign: 'center'}}> <br/> <Link to='/sign-up' style={{color: 'gray', textDecoration: 'none', textAlign: 'center'}}>To view summary stats, please create an account. It's 100% free and helps increase the culture around salary transparency ></Link></div> : 
-        authContext.userInfo && !authContext.userData.contribution ? <div className = 'summary-undertext'>Please contribute to one of the green forms below to access all features! It's 100% free, takes less than 45 seconds, and helps increase salary transparency for the finance community! </div> :
-        <div className = 'summary-undertext'>Thank you for contributing! Please stay tuned as we continue to provide you with more data and better insights. </div> }
+           
+
+
+
+            
+
+        </div> 
+        {/* {!authContext.userInfo ? <div  className = 'summary-undertext' style={{color: 'gray', textDecoration: 'none', textAlign: 'center'}}> <br/> <Link to='/sign-up' style={{color: 'gray', textDecoration: 'none', textAlign: 'center'}}>To view summary stats, please create an account. It's 100% free and helps increase the culture around salary transparency ></Link></div> : 
+        authContext.userInfo && !authContext.userData.contribution ? <div className = 'summary-undertext'>Please contribute to one of the green forms below to access all features! It's 100% free, takes less than 45 seconds, and helps increase salary transparency for the finance community! </div> : */}
+        {authContext.userInfo && authContext.userData.contribution ? <div className = 'summary-undertext'>Thank you for contributing. Please stay tuned as we continue to provide you with more data and better insights. <br/> - Please note internships are not included in summary calculations -</div> : <div className = 'summary-undertext'>- Please note internships are not included in summary calculations -</div>}
         {/* <div className = 'summary-undertext'>Internships are excluded from summary calculations. </div> */}
 
         </div>
@@ -197,6 +504,7 @@ function Salaries(){
 
     const resetFilters = () =>{
         setTitle(null);
+        setCompanyName('');
         setDivision(null);
         setYoe(null);
         setYoeObject(null);
@@ -261,7 +569,7 @@ function Salaries(){
     ]);
 
     const notSignedIn = [
-        {id: 0, value:  null, label: 'Please Sign in to use filters'},
+        {id: 0, value:  null, label: 'Please sign in and contribute to filter'},
     ];
 
     const [divisions, setDivisions] = useState([
@@ -347,7 +655,7 @@ function Salaries(){
     useEffect(async () => {
         console.log(authContext.userInfo)
         setLoggedIn(!!authContext.userInfo)
-        // autocomplete(document.getElementById("company1"), authContext.companies, setCompanyName)
+        autocomplete(document.getElementById("company-filter"), authContext.companies, setCompanyName)
         // document.addEventListener("wheel", function(event){
         //     if(document.activeElement.type === "number"){
         //         document.activeElement.blur();
@@ -470,11 +778,23 @@ function Salaries(){
     return(
         <div className = 'content'>
             <Header/>
+            
             <div className = 'under-header'>
+                <SalaryNav/>
+
+                <h1 style={{width: '100%', textAlign: 'center'}}>Salary and Compensation Insights for Finance</h1>
                 <Stats companyName={companyName} title={title} division={division} yoe={yoe}/>
 
                 <div className = 'filters'>
                     <div className = 'salary-info-2'>
+                        {/* <div className = 'dropdown-container'>
+                            <div for="contract" className = 'dropdown-label-jobs'>Company Name:</div>
+                                <div class="autocomplete" >
+                                        <input id="company-filter" className = 'input-filter' type="text" name="myCompany" value = {companyName} onChange={(e)=>{setCompanyName(e.target.value)}} placeholder="Company"/>
+                                    
+                                </div> 
+                            </div> */}
+                        
                         {authContext.userInfo && authContext.userData.contribution?
                         <div className = 'dropdown-container'>
                             <div for="contract" className = 'dropdown-label-jobs'>Title:</div>
@@ -495,8 +815,8 @@ function Salaries(){
                                     styles={customStyles}
                                     isMulti={false}
                                 />
-                                
-                            </div> }
+                        </div >}
+                        
                         <div className = 'dropdown-container'>
                             <div for="contract" className = 'dropdown-label-jobs'>Division:</div>
                                 <Select
@@ -529,9 +849,10 @@ function Salaries(){
                                     isMulti={false}
                                 />
                         </div >}
-                    </div>
+                        
+                    
                     <div className = 'reset' onClick={()=>{resetFilters()}}>Reset Filters</div>
-
+                    </div>
 
 
 
@@ -564,14 +885,9 @@ function Salaries(){
                         </div> */}
                 </div>
 
-                <div className = 'buttons-container'>
+                
 
-                <Link to='/salary-form' className = 'enter-salary-1'>+ Add Compensation</Link>
-                <Link to='/titlesform' className = 'enter-salary'>+ Add Promotion Timeline</Link>
-                <Link to='/ops-form' className = 'enter-salary'>+ Add Break In/Exit Op</Link>
-
-                </div>
-
+                    <div style={{width: '100%', textAlign: 'center', marginTop: '0px'}}>- tap entry to view more information -</div>
 
 
 
@@ -657,19 +973,24 @@ function Salaries(){
                                 <div className = 'undertext'> {authContext.salaries[salary]['group'].trim() ==='Other' ? '- ' + authContext.salaries[salary]['group_other'] : authContext.salaries[salary]['group']}</div>
                                 </div>
                                 {authContext.userInfo && authContext.userData.contribution ? 
-
                                 <div className = 'experience-container'>
                                 <div>{authContext.salaries[salary]['title'].trim() === 'Other' ? authContext.salaries[salary]['title_other'] : authContext.salaries[salary]['title']}</div>
-                                </div> : 
+                                </div> : authContext.userInfo ?
+                                <Link to = '/salary-form' className = 'experience-container-blur'>
+                                    <div className = 'inner-text'>{authContext.salaries[salary]['experience_company']}/{authContext.salaries[salary]['experience_total']}</div>
+                                </Link> :
                                 <Link to = '/sign-up' className = 'experience-container-blur'>
-                                <div>{authContext.salaries[salary]['title'].trim() === 'Other' ? authContext.salaries[salary]['title_other'] : authContext.salaries[salary]['title']}</div>
+                                    <div className = 'inner-text'>{authContext.salaries[salary]['experience_company']}/{authContext.salaries[salary]['experience_total']}</div>
                                 </Link>}
 
                                 {authContext.userInfo && authContext.userData.contribution ? 
                                 <div className = 'experience-container'>
                                 <div className = 'inner-text'>{authContext.salaries[salary]['experience_company']}/{authContext.salaries[salary]['experience_total']}</div>
-                                </div> : 
-                                <Link className = 'experience-container-blur'>
+                                </div> : authContext.userInfo ?
+                                <Link to = '/salary-form' className = 'experience-container-blur'>
+                                <div className = 'inner-text'>{authContext.salaries[salary]['experience_company']}/{authContext.salaries[salary]['experience_total']}</div>
+                                </Link>:
+                                <Link to = '/sign-up' className = 'experience-container-blur'>
                                 <div className = 'inner-text'>{authContext.salaries[salary]['experience_company']}/{authContext.salaries[salary]['experience_total']}</div>
                                 </Link>}
 
@@ -715,7 +1036,11 @@ function Salaries(){
                 }
                 
             })}</div>
+            
+
             </div>
+            {authContext.userInfo && authContext.userData.contribution ? null :
+            <div style={{width: '100%', textAlign: 'center', marginTop: '20px'}}>- Please sign in and contribute to view all details -</div>}
 
 
             {entries>numShown ? 
@@ -727,8 +1052,17 @@ function Salaries(){
                         <div className = 'hide' onClick={()=>{setPage(1)}}>
                                 Hide
                             </div>}
-                    
+
              <div className = 'bottom-spacer'></div>
+
+            <div className = 'buttons-container'>
+
+                <Link to='/salary-form' className = 'enter-salary-1'>+ Add Compensation</Link>
+                <Link to='/titlesform' className = 'enter-salary'>+ Add Promotion Timeline</Link>
+                <Link to='/ops-form' className = 'enter-salary'>+ Add Break In/Exit Op</Link>
+
+                </div>
+                    
             </div>
 
            
