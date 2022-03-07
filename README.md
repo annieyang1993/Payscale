@@ -4,7 +4,7 @@ Payscale.Finance
 Payscale.Finance is an online salary database where users can filter for recent finance compensation packages based on Job Type, Years of Experience, and Job Title, as well as view the 10th Percentile, Median, and 90th Percentile compensation packages based on their filter criteria. 
 Users can subscribe for salary updates, or contribute their own compensation packages to the website as well. In order to view detailed salary information (like years of experience and title), users need to first create an account and fill-out a salary form, entry ops form, or career progression form.
 
-The website currently serves 130 users, 250 salary submissions, and 2000 web visits in the first month since launch.
+The website currently serves 130 users, contains 250 salary submissions, and has had 2000 web visits in the first month since launch.
 
 Link to live website: https://payscale.finance/#/
 
