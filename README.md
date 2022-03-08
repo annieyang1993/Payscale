@@ -1,10 +1,11 @@
 Payscale.Finance
 ----------------------
 
-Payscale.Finance is an online salary database where users can filter for recent finance compensation packages based on Job Type, Years of Experience, and Job Title, as well as view the 10th Percentile, Median, and 90th Percentile compensation packages based on their filter criteria. 
-Users can subscribe for salary updates, or contribute their own compensation packages to the website as well. In order to view detailed salary information (like years of experience and title), users need to first create an account and fill-out a salary form, entry ops form, or career progression form.
+Payscale.Finance is an online salary database where users can filter for recent finance compensation packages based on Job Type, Years of Experience, and Job Title, and view summary metrics based on their filter criteria. 
 
-The website currently serves 130 users, contains 250 salary submissions, and has had 2000 web visits in the first month since launch.
+Users can subscribe for salary updates or contribute their own compensation packages. In order to view detailed salary information (like years of experience and title), users need to first create an account and submit a form contributing information to the database.
+
+The website currently serves 140 users, contains 250 salary submissions, and has had 2000 web visits in the first month since launch.
 
 Link to live website: https://payscale.finance/#/
 
@@ -41,4 +42,4 @@ I used React on the frontend and Firebase (Cloud Firestore, Storage, Authenticat
 
 Future Features
 --------------------------
-In the future, I'd like to allow users to save compensation data for ease of access, create career progression/title comparisons charts between companies, as well as allow users to comment and share blog psots. 
+In the future, I'd like to allow users to save compensation data for ease of access, create career progression/title comparisons charts between companies, as well as allow users to comment and share blog posts. 
