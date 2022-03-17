@@ -119,7 +119,7 @@ export default function Header() {
                 </div>
 
                 <div className = "tab">
-                        <Link to="/salaries" className = "tab-content">Salaries </Link>              
+                        <Link to="/" className = "tab-content">Salaries </Link>              
                 </div>
 
                 {authContext.userInfo ? <div className = 'tab-name'><div className = 'tab-content'>Welcome, {authContext.userData.firstname}!</div></div> : 

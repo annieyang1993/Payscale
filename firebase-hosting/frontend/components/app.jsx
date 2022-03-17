@@ -15,7 +15,7 @@ import SalaryForm from '../pages/salaryform'
 import Salaries from '../pages/salaries'
 import SalariesSpecific from '../pages/salariesspecific'
 
-import Welcome from '../pages/welcome'
+// import Welcome from '../pages/welcome'
 import Entry from '../pages/entryopsform'
 import TitlesForm from '../pages/titlesform'
 import SupportPayscale from '../pages/supportpayscale'
@@ -37,8 +37,11 @@ export default function App() {
       <div className='app'>
          <Switch>
            <Route exact path="/">
+              <Salaries/>
+          </Route>
+           {/* <Route exact path="/">
               <Welcome/>
-            </Route>
+            </Route> */}
           <Route exact path="/sign-in">
               <Signin/>
             </Route>
@@ -61,9 +64,7 @@ export default function App() {
           <Route exact path="/support-payscale">
               <SupportPayscale/>
           </Route>
-          <Route exact path="/salaries">
-              <Salaries/>
-          </Route>   
+             
           <Route exact path="/salaries/:slug/:slug">
               <SalariesSpecific/>
           </Route> 

@@ -963,6 +963,8 @@ function Salaries(){
                         numShown+=1;
                         return (
                             <div className = 'salary-info' onClick={()=>{if (!authContext.blur && open===i){setOpen(null)} else if (!authContext.blur){setOpen(i)}}} style={entries%2===0 ? {backgroundColor: 'rgb(240, 240, 240)'} : {backgroundColor: 'transparent'}}>
+                                <title>Compensation Insights for Careers in Finance | Payscale Finance</title>
+                                <meta name = 'Description' content="Salary and bonus breakdowns for careers within finance, including Investment Banking, Sales and Trading, Private Equity, Management Consulting, Quantitative Research, Quantitative Trading, Accounting, and FP&A "/>
                                 <div className = 'info-container'>
                                 <div>{authContext.salaries[salary]['company_name']}</div>
                                 <div className = 'undertext'>{authContext.salaries[salary]['location']}</div>

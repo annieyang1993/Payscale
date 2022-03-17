@@ -333,7 +333,7 @@ function SalaryPost() {
         <div className = 'header-wrapper'>
             <div className = "header">
 
-                <Link  to='/salaries' className = 'logo-wrap' >
+                <Link  to='/' className = 'logo-wrap' >
                     Payscale <GiReceiveMoney/>
                 </Link>
             </div>
