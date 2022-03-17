@@ -562,7 +562,7 @@ function SalaryPost() {
                     <div>Your submission helps increase salary transparency and helps others make better career decisions. </div>
                     <br/><br/><br/>
                     
-                    <Link to='/salaries' className = 'back-2'>See compensation and salary insights ></Link>
+                    <Link to='/' className = 'back-2'>See compensation and salary insights ></Link>
                 </div>
             </div>
             </form>}

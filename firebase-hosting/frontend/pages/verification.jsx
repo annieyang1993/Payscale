@@ -54,7 +54,6 @@ function Signin() {
     }
 
     useEffect(async () => {
-        console.log('EMAIL', email);
         // if (auth.isSignInWithEmailLink(window.location.href)) {
         //             let email = window.localStorage.getItem('emailForSignIn');
         //             if (!email) {
@@ -198,7 +197,7 @@ function Signin() {
                         </div>}
                     <br/>
                     
-                    <Link to='/salaries' className = 'back-2'>See compensation and salary insights ></Link>
+                    <Link to='/' className = 'back-2'>See compensation and salary insights ></Link>
                 </div>
             </div> </form>: 
             <SalaryForm/>

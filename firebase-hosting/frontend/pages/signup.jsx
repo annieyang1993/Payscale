@@ -28,14 +28,15 @@ require('react-dom');
 function Signup() {
     const authContext = useContext(AuthContext);
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordAgain, setPasswordAgain] = useState('');
+    const [password, setPassword] = useState('Nopassword');
+    const [passwordAgain, setPasswordAgain] = useState('Nopassword');
     const [submitted, setSubmitted] = useState(false);
     const [loading, setLoading] = useState('');
     const [submitClicked, setSubmitClicked] = useState(false);
     const [signupError, setSignupError] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    const [receiveUpdates, setReceiveUpdates] = useState(false);
 
     useEffect(async () => {
     }, [])
@@ -71,7 +72,9 @@ function Signup() {
               contribution: false,
               salary: false,
               exit_op: false,
-              timeline: false
+              timeline: false,
+              receive_updates: receiveUpdates,
+              created_on: new Date()
             }, {merge: true}).then(()=>{
                 auth.signOut(); 
                 authContext.setUserData({});
@@ -102,7 +105,7 @@ function Signup() {
           })
           .catch((error)=>{
               console.log(error);
-              setSignupError('Please enter a valid email address.');
+              setSignupError('Please ensure email is valid and has not already been used.');
 
             
         });
@@ -118,7 +121,7 @@ function Signup() {
         <div className = "content">
         <div className = 'header-wrapper'>
             <div className = "header">
-                <Link  to='/salaries' className = 'logo-wrap' >
+                <Link  to='/' className = 'logo-wrap' >
                     Payscale <GiReceiveMoney/>
                 </Link>
             </div>
@@ -126,7 +129,7 @@ function Signup() {
             <form autocomplete="off" onSubmit={(e)=>{handleSubmit(e)}} className = 'form'>
             <div className='label' style={{fontWeight: 'bold', fontSize: '1.5rem', width: '100%', textAlign: 'center', marginBottom: '30px'}}>Sign up</div>
             <div style={{width: '100%', textAlign: 'center', fontSize: '0.9rem'}}>
-                Please sign up and contribute to view detailed salary information. This helps change the overall culture around salary transparency and helps individuals make more informed career decisions.
+                Sign up and contribute to view detailed salary information. This helps change the overall culture around salary transparency and helps individuals make more informed career decisions.
             </div> <br/><br/>
             
                        {submitClicked && firstName === '' ? 
@@ -167,9 +170,18 @@ function Signup() {
                 <input id="company" className = 'input' type="text" name="myCompany" value = {email} onChange={(e)=>{setEmail(e.target.value)}} placeholder="Enter email address"/>
                 <br/>
             </div> }
+
+            <div style={{width: '100%', textAlign: 'left', fontSize: '0.8rem'}}>
+                Only used for signup/signin purposes unless updates box is checked.
+            </div>
             
             <br/>
-            {submitClicked && password === '' ? 
+
+            <div className = 'radio-sections' style={{display: 'flex', flexWrap: 'wrap'}}>
+                            <input id='switch' name="apply-by2" type='checkbox' checked={receiveUpdates} onClick={()=>{setReceiveUpdates(!receiveUpdates)}}/>
+                            <label for='switch' style={{fontSize:'1rem', width: 'calc(100% - 50px)', marginLeft: '10px', color: 'gray'}} checked={receiveUpdates} name="apply-by2" > Receive future salary and job opening updates. You can opt out of this at any time.</label>
+                        </div>
+            {/*submitClicked && password === '' ? 
             <div className="autocomplete" >
                 <label for='company' className='label'>Enter Password</label><br/>
                 <input id="company" style={{border: '0.5px solid red'}} className = 'input' type="password" name="myCompany" value = {password} onChange={(e)=>{setPassword(e.target.value)}} placeholder="Enter password"/>
@@ -179,10 +191,10 @@ function Signup() {
                 <label for='company' className='label'>Enter Password</label><br/>
                 <input id="company" className = 'input' type="password" name="myCompany" value = {password} onChange={(e)=>{setPassword(e.target.value)}} placeholder="Enter password"/>
                 <br/>
-            </div> }
+    </div> */}
             
             
-            <br/>
+            {/* <br/>
 
             {submitClicked && passwordAgain === '' ? 
 
@@ -195,13 +207,13 @@ function Signup() {
                 <label for='company' className='label'>Re-enter Password</label><br/>
                 <input id="company" className = 'input' type="password" name="myCompany" value = {passwordAgain} onChange={(e)=>{setPasswordAgain(e.target.value)}} placeholder="Enter password again"/>
                 <br/>
-            </div>}<br/>
+            </div>}<br/> */}
 
-            <input disabled = {loading} value = {loading ? 'Loading...' : !submitted? 'Sign Up' : 'Email Sent'} type="submit"/>
+            <input disabled = {loading} value = {loading ? 'Loading...' : !submitted? 'Sign Up' : 'Email Link Sent'} type="submit"/>
             <div style={{width: '100%', marginTop: '20px', textAlign: 'center', color: 'rgba(255, 0, 0, 0.514)'}}>{signupError}</div>
-            <div style={{width: '100%', textAlign: 'center', fontSize: '0.8rem'}}>
+            {/* <div style={{width: '100%', textAlign: 'center', fontSize: '0.8rem'}}>
                 If you've already filled out a salary form, please contact payscalefinance.info@gmail.com!
-            </div>
+            </div> */}
             
             </form> 
 

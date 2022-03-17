@@ -671,7 +671,7 @@ function EntryForm() {
                     <div>Your submission increase information around opportunities and career progression within finance. </div>
                     <br/><br/><br/>
                     
-                    <Link to='/salaries' className = 'back'>Back to salaries ></Link>
+                    <Link to='/' className = 'back'>Back to salaries ></Link>
                 </div>
             </div>
             </form>}

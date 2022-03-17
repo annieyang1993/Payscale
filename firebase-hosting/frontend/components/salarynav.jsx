@@ -45,7 +45,7 @@ export default function SalaryNav() {
 
     const handleClick = (i) =>{
         if (i===0){
-            window.location.href=`#/salaries`;
+            window.location.href=`#/`;
             authContext.setCareerFilter(null);
         } else{
             window.location.href=`#/salaries/${titles[i].split(" ").join("-")}/${i}`

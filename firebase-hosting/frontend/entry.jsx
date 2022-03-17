@@ -235,7 +235,34 @@ function Root() {
         await (authenticatedUser ? setUid(authenticatedUser.uid) : setUid(null));
         console.log(authenticatedUser.uid)
         var userTemp = await Firebase.firestore().collection('users').doc(`${authenticatedUser.uid}`).get();
-        setUserData(userTemp.data());
+        if (userTemp === null){
+          Firebase.firestore().collection('users').doc(`${authenticatedUser.uid}`).set({
+              email: email,
+              firstname: firstName,
+              lastname: lastName,
+              contribution: false,
+              salary: false,
+              exit_op: false,
+              timeline: false,
+              receive_updates: false,
+              created_on: new Date()
+            }, {merge: true});
+
+          setUserData({
+              email: email,
+              firstname: firstName,
+              lastname: lastName,
+              contribution: false,
+              salary: false,
+              exit_op: false,
+              timeline: false,
+              receive_updates: false,
+              created_on: new Date()
+            })
+        } else{
+          setUserData(userTemp.data());
+        }
+        
       } catch (error) {
         console.log(error);
       }

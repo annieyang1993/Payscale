@@ -39,7 +39,8 @@ export default function App() {
            <Route exact path="/">
               <Salaries/>
           </Route>
-           {/* <Route exact path="/">
+
+          {/* <Route exact path="/">
               <Welcome/>
             </Route> */}
           <Route exact path="/sign-in">
@@ -80,7 +81,8 @@ export default function App() {
           </Route>       
           <Route exact path="/upload">
               <Upload/>
-          </Route>       
+          </Route> 
+                 
         </Switch>
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
